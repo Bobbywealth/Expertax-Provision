@@ -272,7 +272,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Blog routes
-  app.post("/api/blog", async (req, res) => {
+  app.post("/api/blog", isAuthenticated, async (req: any, res) => {
     try {
       const blogData = insertBlogPostSchema.parse(req.body);
       const blogPost = await storage.createBlogPost(blogData);
@@ -281,53 +281,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof z.ZodError) {
         res.status(400).json({ message: "Invalid blog post data", errors: error.errors });
       } else {
+        console.error("Blog post creation error:", error);
         res.status(500).json({ message: "Failed to create blog post" });
       }
     }
   });
 
-  app.get("/api/blog", async (req, res) => {
+  app.get("/api/blog", async (req: any, res) => {
     try {
       const { published } = req.query;
-      const blogPosts = await storage.getBlogPosts(
-        published === 'true' ? true : published === 'false' ? false : undefined
-      );
+      const isAuthenticated = req.user; // Check if user is authenticated
+      
+      // For unauthenticated users, only show published posts
+      const showPublished = isAuthenticated ? 
+        (published === 'true' ? true : published === 'false' ? false : undefined) :
+        true;
+      
+      const blogPosts = await storage.getBlogPosts(showPublished);
       res.json(blogPosts);
     } catch (error) {
+      console.error("Blog posts fetch error:", error);
       res.status(500).json({ message: "Failed to fetch blog posts" });
     }
   });
 
-  app.get("/api/blog/:slug", async (req, res) => {
+  app.get("/api/blog/:slug", async (req: any, res) => {
     try {
       const { slug } = req.params;
       const blogPost = await storage.getBlogPostBySlug(slug);
+      
       if (!blogPost) {
         return res.status(404).json({ message: "Blog post not found" });
       }
+      
+      // Don't show unpublished posts to unauthenticated users
+      if (!blogPost.published && !req.user) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      
       res.json(blogPost);
     } catch (error) {
+      console.error("Blog post fetch error:", error);
       res.status(500).json({ message: "Failed to fetch blog post" });
     }
   });
 
-  app.patch("/api/blog/:id", async (req, res) => {
+  app.patch("/api/blog/:id", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const updates = req.body;
+      
+      // Validate updates with a partial schema
+      const updateSchema = insertBlogPostSchema.partial().omit({ 
+        authorId: true, // Don't allow changing author
+        published: true, // Use separate publish endpoint
+        publishedAt: true // Managed by publish endpoint
+      });
+      
+      const updates = updateSchema.parse(req.body);
       const blogPost = await storage.updateBlogPost(id, updates);
       res.json(blogPost);
     } catch (error) {
-      res.status(500).json({ message: "Failed to update blog post" });
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid update data", errors: error.errors });
+      } else {
+        console.error("Blog post update error:", error);
+        res.status(500).json({ message: "Failed to update blog post" });
+      }
     }
   });
 
-  app.patch("/api/blog/:id/publish", async (req, res) => {
+  app.patch("/api/blog/:id/publish", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const blogPost = await storage.publishBlogPost(id);
       res.json(blogPost);
     } catch (error) {
+      console.error("Blog post publish error:", error);
       res.status(500).json({ message: "Failed to publish blog post" });
     }
   });

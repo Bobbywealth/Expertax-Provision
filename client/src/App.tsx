@@ -10,6 +10,9 @@ import Agents from "@/pages/agents";
 import Contact from "@/pages/contact";
 import Appointments from "@/pages/appointments";
 import Portal from "@/pages/portal";
+import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
+import BlogEditor from "@/pages/blog-editor";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +25,10 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/appointments" component={Appointments} />
       <Route path="/portal" component={Portal} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/create" component={BlogEditor} />
+      <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/blog/:slug/edit" component={BlogEditor} />
       <Route component={NotFound} />
     </Switch>
   );

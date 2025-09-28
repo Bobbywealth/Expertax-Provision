@@ -27,6 +27,10 @@ export const agents = pgTable("agents", {
 export const insertContactSchema = createInsertSchema(contacts).omit({
   id: true,
   createdAt: true,
+}).extend({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email address"),
 });
 
 export const insertAgentSchema = createInsertSchema(agents).omit({

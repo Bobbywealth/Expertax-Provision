@@ -5,13 +5,18 @@ import {
   type Document, type InsertDocument,
   type BlogPost, type InsertBlogPost,
   type Testimonial, type InsertTestimonial,
-  contacts, agents, appointments, documents, blogPosts, testimonials
+  type User, type UpsertUser,
+  contacts, agents, appointments, documents, blogPosts, testimonials, users
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
+  // User methods (required for Replit Auth)
+  getUser(id: string): Promise<User | undefined>;
+  upsertUser(user: UpsertUser): Promise<User>;
+  
   // Contact methods
   createContact(contact: InsertContact): Promise<Contact>;
   getContacts(): Promise<Contact[]>;
@@ -46,6 +51,27 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  // User methods (required for Replit Auth)
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(userData)
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+    return user;
+  }
+
   private async seedAgents() {
     // Direct database check to prevent recursion
     const existingAgents = await db.select().from(agents);

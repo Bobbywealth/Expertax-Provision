@@ -1,5 +1,8 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
+import multer from "multer";
+import path from "path";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
@@ -7,6 +10,42 @@ import {
   insertDocumentSchema, insertBlogPostSchema, insertTestimonialSchema 
 } from "@shared/schema";
 import { z } from "zod";
+
+// Configure multer for file uploads
+const uploadStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ 
+  storage: uploadStorage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Allow common document formats
+    const allowedMimes = [
+      'application/pdf',
+      'image/jpeg',
+      'image/png',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+    
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only PDF, images, and Office documents are allowed.'));
+    }
+  }
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -109,38 +148,125 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Document routes
-  app.post("/api/documents", async (req, res) => {
+  // Secure document download endpoint
+  app.get("/api/documents/:id/download", isAuthenticated, async (req: any, res) => {
     try {
-      const documentData = insertDocumentSchema.parse(req.body);
-      const document = await storage.createDocument(documentData);
-      res.json({ success: true, document });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ message: "Invalid document data", errors: error.errors });
-      } else {
-        res.status(500).json({ message: "Failed to upload document" });
+      const { id } = req.params;
+      const userEmail = req.user?.claims?.email;
+      
+      if (!userEmail) {
+        return res.status(401).json({ message: "User email not found" });
       }
+
+      // Find the document and verify ownership
+      const userDocuments = await storage.getDocumentsByClient(userEmail);
+      const document = userDocuments.find(doc => doc.id === id);
+      
+      if (!document) {
+        return res.status(404).json({ message: "Document not found or access denied" });
+      }
+
+      // Serve the file securely
+      const filePath = path.join('uploads', path.basename(document.fileUrl));
+      res.download(filePath, document.fileName);
+    } catch (error) {
+      console.error("Document download error:", error);
+      res.status(500).json({ message: "Failed to download document" });
     }
   });
 
-  app.get("/api/documents/:clientEmail", async (req, res) => {
+  // Document routes - File upload endpoint
+  app.post("/api/documents", isAuthenticated, upload.single('file'), async (req: any, res) => {
     try {
-      const { clientEmail } = req.params;
-      const documents = await storage.getDocumentsByClient(clientEmail);
-      res.json(documents);
+      if (!req.file) {
+        return res.status(400).json({ message: "No file provided" });
+      }
+
+      const { documentType } = req.body;
+      const userEmail = req.user?.claims?.email;
+      
+      if (!userEmail) {
+        return res.status(401).json({ message: "User email not found" });
+      }
+
+      // Validate document type
+      const validTypes = ['w2', '1099', 'receipt', 'bank_statement', 'tax_return', 'other'];
+      if (!documentType || !validTypes.includes(documentType)) {
+        return res.status(400).json({ message: "Invalid or missing document type" });
+      }
+
+      const documentData = {
+        clientEmail: userEmail,
+        fileName: req.file.originalname,
+        fileUrl: req.file.filename, // Store filename, will construct secure URL in response
+        fileSize: req.file.size,
+        documentType,
+        status: 'uploaded'
+      };
+
+      const document = await storage.createDocument(documentData);
+      
+      // Return document with secure download URL
+      const responseDocument = {
+        ...document,
+        fileUrl: `/api/documents/${document.id}/download`
+      };
+      
+      res.json({ success: true, document: responseDocument });
+    } catch (error) {
+      console.error("Document upload error:", error);
+      res.status(500).json({ message: "Failed to upload document" });
+    }
+  });
+
+  app.get("/api/documents", isAuthenticated, async (req: any, res) => {
+    try {
+      const userEmail = req.user?.claims?.email;
+      if (!userEmail) {
+        return res.status(401).json({ message: "User email not found" });
+      }
+      const documents = await storage.getDocumentsByClient(userEmail);
+      
+      // Return documents with secure download URLs
+      const secureDocuments = documents.map(doc => ({
+        ...doc,
+        fileUrl: `/api/documents/${doc.id}/download`
+      }));
+      
+      res.json(secureDocuments);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch documents" });
     }
   });
 
-  app.patch("/api/documents/:id/status", async (req, res) => {
+  app.patch("/api/documents/:id/status", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const document = await storage.updateDocumentStatus(id, status);
-      res.json(document);
+      const userEmail = req.user?.claims?.email;
+      
+      if (!userEmail) {
+        return res.status(401).json({ message: "User email not found" });
+      }
+
+      // Validate status value
+      const validStatuses = ['uploaded', 'processing', 'reviewed'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: "Invalid status value" });
+      }
+
+      // Find the document and verify ownership
+      const userDocuments = await storage.getDocumentsByClient(userEmail);
+      const document = userDocuments.find(doc => doc.id === id);
+      
+      if (!document) {
+        return res.status(404).json({ message: "Document not found or access denied" });
+      }
+
+      const updatedDocument = await storage.updateDocumentStatus(id, status);
+      res.json(updatedDocument);
     } catch (error) {
+      console.error("Document status update error:", error);
       res.status(500).json({ message: "Failed to update document status" });
     }
   });

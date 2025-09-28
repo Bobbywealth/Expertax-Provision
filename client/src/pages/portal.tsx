@@ -1,16 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import DocumentManager from "@/components/documents/DocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, FileText, Calendar, Upload, LogOut } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User, FileText, Calendar, Upload, LogOut, BarChart3, Settings } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function Portal() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading } = useAuth();
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -78,166 +81,237 @@ export default function Portal() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Quick Actions */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Quick Actions */}
-            <Card data-testid="card-quick-actions">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <User className="h-5 w-5 mr-2" />
-                  Quick Actions
-                </CardTitle>
-                <CardDescription>
-                  Common tasks and services you can access
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Button 
-                  variant="outline" 
-                  className="h-24 flex flex-col items-center justify-center space-y-2"
-                  onClick={() => window.location.href = "/appointments"}
-                  data-testid="button-book-appointment"
-                >
-                  <Calendar className="h-6 w-6" />
-                  <span>Book Appointment</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-24 flex flex-col items-center justify-center space-y-2"
-                  data-testid="button-upload-documents"
-                >
-                  <Upload className="h-6 w-6" />
-                  <span>Upload Documents</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-24 flex flex-col items-center justify-center space-y-2"
-                  onClick={() => window.location.href = "/contact"}
-                  data-testid="button-contact-advisor"
-                >
-                  <User className="h-6 w-6" />
-                  <span>Contact Advisor</span>
-                </Button>
-                <Button 
-                  variant="outline" 
-                  className="h-24 flex flex-col items-center justify-center space-y-2"
-                  data-testid="button-view-returns"
-                >
-                  <FileText className="h-6 w-6" />
-                  <span>View Tax Returns</span>
-                </Button>
-              </CardContent>
-            </Card>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview" data-testid="tab-overview">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="documents" data-testid="tab-documents">
+              <FileText className="h-4 w-4 mr-2" />
+              Documents
+            </TabsTrigger>
+            <TabsTrigger value="appointments" data-testid="tab-appointments">
+              <Calendar className="h-4 w-4 mr-2" />
+              Appointments
+            </TabsTrigger>
+            <TabsTrigger value="settings" data-testid="tab-settings">
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </TabsTrigger>
+          </TabsList>
 
-            {/* Recent Activity */}
-            <Card data-testid="card-recent-activity">
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>
-                  Your latest interactions and updates
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg" data-testid="activity-welcome">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <div>
-                        <p className="font-medium">Account created</p>
-                        <p className="text-sm text-muted-foreground">Welcome to Provision ExperTax Services!</p>
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Left Column - Quick Actions */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Quick Actions */}
+                <Card data-testid="card-quick-actions">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <User className="h-5 w-5 mr-2" />
+                      Quick Actions
+                    </CardTitle>
+                    <CardDescription>
+                      Common tasks and services you can access
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid md:grid-cols-2 gap-4">
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center space-y-2"
+                      onClick={() => window.location.href = "/appointments"}
+                      data-testid="button-book-appointment"
+                    >
+                      <Calendar className="h-6 w-6" />
+                      <span>Book Appointment</span>
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center space-y-2"
+                      onClick={() => setActiveTab("documents")}
+                      data-testid="button-upload-documents"
+                    >
+                      <Upload className="h-6 w-6" />
+                      <span>Upload Documents</span>
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center space-y-2"
+                      onClick={() => window.location.href = "/contact"}
+                      data-testid="button-contact-advisor"
+                    >
+                      <User className="h-6 w-6" />
+                      <span>Contact Advisor</span>
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col items-center justify-center space-y-2"
+                      data-testid="button-view-returns"
+                    >
+                      <FileText className="h-6 w-6" />
+                      <span>View Tax Returns</span>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Recent Activity */}
+                <Card data-testid="card-recent-activity">
+                  <CardHeader>
+                    <CardTitle>Recent Activity</CardTitle>
+                    <CardDescription>
+                      Your latest interactions and updates
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 border rounded-lg" data-testid="activity-welcome">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <div>
+                            <p className="font-medium">Account created</p>
+                            <p className="text-sm text-muted-foreground">Welcome to Provision ExperTax Services!</p>
+                          </div>
+                        </div>
+                        <Badge variant="secondary">New</Badge>
+                      </div>
+                      <div className="text-center py-8">
+                        <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                        <p className="text-muted-foreground">No recent activity yet</p>
+                        <p className="text-sm text-muted-foreground">Book an appointment or upload documents to get started</p>
                       </div>
                     </div>
-                    <Badge variant="secondary">New</Badge>
-                  </div>
-                  <div className="text-center py-8">
-                    <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No recent activity yet</p>
-                    <p className="text-sm text-muted-foreground">Book an appointment or upload documents to get started</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  </CardContent>
+                </Card>
+              </div>
 
-          {/* Right Column - Account Info & Stats */}
-          <div className="space-y-6">
-            {/* Account Information */}
-            <Card data-testid="card-account-info">
-              <CardHeader>
-                <CardTitle>Account Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Name</label>
-                  <p className="text-sm" data-testid="text-user-name">
-                    {user?.firstName && user?.lastName 
-                      ? `${user.firstName} ${user.lastName}` 
-                      : 'Not provided'
-                    }
-                  </p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Email</label>
-                  <p className="text-sm" data-testid="text-user-email">{user?.email || 'Not provided'}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Member Since</label>
-                  <p className="text-sm" data-testid="text-member-since">
-                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Today'}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Account Status</label>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="default" data-testid="badge-account-status">Active</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Right Column - Account Info & Stats */}
+              <div className="space-y-6">
+                {/* Account Information */}
+                <Card data-testid="card-account-info">
+                  <CardHeader>
+                    <CardTitle>Account Information</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Name</label>
+                      <p className="text-sm" data-testid="text-user-name">
+                        {user?.firstName && user?.lastName 
+                          ? `${user.firstName} ${user.lastName}` 
+                          : 'Not provided'
+                        }
+                      </p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Email</label>
+                      <p className="text-sm" data-testid="text-user-email">{user?.email || 'Not provided'}</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Member Since</label>
+                      <p className="text-sm" data-testid="text-member-since">
+                        {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Today'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Account Status</label>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="default" data-testid="badge-account-status">Active</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-            {/* Quick Stats */}
-            <Card data-testid="card-quick-stats">
-              <CardHeader>
-                <CardTitle>Your Stats</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Appointments</span>
-                  <span className="font-semibold" data-testid="stat-appointments">0</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Documents</span>
-                  <span className="font-semibold" data-testid="stat-documents">0</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Tax Returns</span>
-                  <span className="font-semibold" data-testid="stat-tax-returns">0</span>
-                </div>
-              </CardContent>
-            </Card>
+                {/* Quick Stats */}
+                <Card data-testid="card-quick-stats">
+                  <CardHeader>
+                    <CardTitle>Your Stats</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Appointments</span>
+                      <span className="font-semibold" data-testid="stat-appointments">0</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Documents</span>
+                      <span className="font-semibold" data-testid="stat-documents">0</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Tax Returns</span>
+                      <span className="font-semibold" data-testid="stat-tax-returns">0</span>
+                    </div>
+                  </CardContent>
+                </Card>
 
-            {/* Support */}
-            <Card data-testid="card-support">
+                {/* Support */}
+                <Card data-testid="card-support">
+                  <CardHeader>
+                    <CardTitle>Need Help?</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Our tax experts are here to help you with any questions or concerns.
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => window.location.href = "/contact"}
+                      data-testid="button-get-help"
+                    >
+                      Get Help
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <DocumentManager />
+          </TabsContent>
+
+          <TabsContent value="appointments">
+            <Card data-testid="card-appointments-tab">
               <CardHeader>
-                <CardTitle>Need Help?</CardTitle>
+                <CardTitle>Your Appointments</CardTitle>
+                <CardDescription>
+                  View and manage your scheduled appointments
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Our tax experts are here to help you with any questions or concerns.
-                </p>
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => window.location.href = "/contact"}
-                  data-testid="button-get-help"
-                >
-                  Get Help
-                </Button>
+                <div className="text-center py-12">
+                  <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium mb-2">No appointments yet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Schedule your first appointment to get started
+                  </p>
+                  <Button onClick={() => window.location.href = "/appointments"} data-testid="button-schedule-appointment">
+                    Schedule Appointment
+                  </Button>
+                </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <Card data-testid="card-settings-tab">
+              <CardHeader>
+                <CardTitle>Account Settings</CardTitle>
+                <CardDescription>
+                  Manage your account preferences and information
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-12">
+                  <Settings className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Settings</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Account settings and preferences will be available soon
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <Footer />

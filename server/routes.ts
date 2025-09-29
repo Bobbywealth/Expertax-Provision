@@ -4,7 +4,7 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import path from "path";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth, requireAuth } from "./auth";
 import { 
   insertContactSchema, insertAppointmentSchema, 
   insertDocumentSchema, insertBlogPostSchema, insertTestimonialSchema 
@@ -51,17 +51,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  // Auth routes are now handled in auth.ts (register, login, logout, user)
 
   // Contact form submission
   app.post("/api/contacts", async (req, res) => {
@@ -149,7 +139,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Calendly integration routes
-  app.get("/api/calendly/user", isAuthenticated, async (req: any, res) => {
+  app.get("/api/calendly/user", requireAuth, async (req: any, res) => {
     try {
       const response = await fetch('https://api.calendly.com/users/me', {
         headers: {
@@ -170,7 +160,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/calendly/events", isAuthenticated, async (req: any, res) => {
+  app.get("/api/calendly/events", requireAuth, async (req: any, res) => {
     try {
       // First get user info to get the user URI
       const userResponse = await fetch('https://api.calendly.com/users/me', {
@@ -224,7 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/calendly/events/:eventId/invitees", isAuthenticated, async (req: any, res) => {
+  app.get("/api/calendly/events/:eventId/invitees", requireAuth, async (req: any, res) => {
     try {
       const { eventId } = req.params;
       const response = await fetch(`https://api.calendly.com/scheduled_events/${eventId}/invitees`, {
@@ -247,7 +237,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Secure document download endpoint
-  app.get("/api/documents/:id/download", isAuthenticated, async (req: any, res) => {
+  app.get("/api/documents/:id/download", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       const userEmail = req.user?.claims?.email;
@@ -274,7 +264,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Document routes - File upload endpoint
-  app.post("/api/documents", isAuthenticated, upload.single('file'), async (req: any, res) => {
+  app.post("/api/documents", requireAuth, upload.single('file'), async (req: any, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file provided" });
@@ -317,7 +307,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/documents", isAuthenticated, async (req: any, res) => {
+  app.get("/api/documents", requireAuth, async (req: any, res) => {
     try {
       const userEmail = req.user?.claims?.email;
       if (!userEmail) {
@@ -337,7 +327,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/documents/:id/status", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/documents/:id/status", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -370,7 +360,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Blog routes
-  app.post("/api/blog", isAuthenticated, async (req: any, res) => {
+  app.post("/api/blog", requireAuth, async (req: any, res) => {
     try {
       const blogData = insertBlogPostSchema.parse(req.body);
       const blogPost = await storage.createBlogPost(blogData);
@@ -388,10 +378,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/blog", async (req: any, res) => {
     try {
       const { published } = req.query;
-      const isAuthenticated = req.user; // Check if user is authenticated
+      const requireAuth = req.user; // Check if user is authenticated
       
       // For unauthenticated users, only show published posts
-      const showPublished = isAuthenticated ? 
+      const showPublished = requireAuth ? 
         (published === 'true' ? true : published === 'false' ? false : undefined) :
         true;
       
@@ -424,7 +414,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/blog/:id", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/blog/:id", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       
@@ -448,7 +438,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/blog/:id/publish", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/blog/:id/publish", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       const blogPost = await storage.publishBlogPost(id);
@@ -478,10 +468,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/testimonials", async (req: any, res) => {
     try {
       const { approved } = req.query;
-      const isAuthenticated = req.user; // Check if user is authenticated
+      const requireAuth = req.user; // Check if user is authenticated
       
       // For unauthenticated users, only show approved testimonials
-      const showApproved = isAuthenticated ? 
+      const showApproved = requireAuth ? 
         (approved === 'true' ? true : approved === 'false' ? false : undefined) :
         true;
       
@@ -493,7 +483,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/testimonials/:id/approve", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/testimonials/:id/approve", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       const testimonial = await storage.approveTestimonial(id);
@@ -504,7 +494,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/testimonials/:id/feature", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/testimonials/:id/feature", requireAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { featured } = req.body;

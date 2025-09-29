@@ -5,17 +5,22 @@ import {
   type Document, type InsertDocument,
   type BlogPost, type InsertBlogPost,
   type Testimonial, type InsertTestimonial,
-  type User, type UpsertUser,
+  type User, type InsertUser,
   contacts, agents, appointments, documents, blogPosts, testimonials, users
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 import { randomUUID } from "crypto";
+import session from "express-session";
+import connectPg from "connect-pg-simple";
 
 export interface IStorage {
-  // User methods (required for Replit Auth)
+  // User methods for email/password auth
   getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
+  createUser(user: InsertUser): Promise<User>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  sessionStore: any;
   
   // Contact methods
   createContact(contact: InsertContact): Promise<Contact>;
@@ -51,24 +56,42 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  // User methods (required for Replit Auth)
+  sessionStore: any;
+
+  constructor() {
+    // Setup session store for PostgreSQL
+    const PostgresSessionStore = connectPg(session);
+    
+    this.sessionStore = new PostgresSessionStore({
+      conObject: {
+        connectionString: process.env.DATABASE_URL,
+      },
+      createTableIfMissing: false, // Table already exists from Drizzle schema
+      tableName: 'sessions', // Use the existing sessions table
+    });
+  }
+
+  // User methods for email/password auth
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
+  async createUser(userData: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(userData)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
       .returning();
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
     return user;
   }
 

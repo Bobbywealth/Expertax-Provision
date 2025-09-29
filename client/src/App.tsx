@@ -15,6 +15,7 @@ import BlogPost from "@/pages/blog-post";
 import BlogEditor from "@/pages/blog-editor";
 import TestimonialSubmit from "@/pages/testimonial-submit";
 import TestimonialsAdmin from "@/pages/testimonials-admin";
+import Calendar from "@/pages/calendar";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/blog/:slug/edit" component={BlogEditor} />
       <Route path="/testimonials/submit" component={TestimonialSubmit} />
       <Route path="/testimonials/admin" component={TestimonialsAdmin} />
+      <Route path="/calendar" component={Calendar} />
       <Route component={NotFound} />
     </Switch>
   );

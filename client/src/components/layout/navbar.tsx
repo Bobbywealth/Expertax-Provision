@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, X, Shield, User, LogOut } from "lucide-react";
+import { Menu, X, Shield, User, LogOut, Calendar } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -54,7 +54,7 @@ export default function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="gap-2" data-testid="button-user-menu">
                     <User className="w-4 h-4" />
-                    {user.first_name || "User"}
+                    {user.firstName || "User"}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -62,6 +62,12 @@ export default function Navbar() {
                     <Link href="/portal" className="w-full" data-testid="link-portal">
                       <User className="w-4 h-4 mr-2" />
                       Client Portal
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/calendar" className="w-full" data-testid="link-calendar">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Calendar
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -72,13 +78,15 @@ export default function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onClick={logout}
-                    className="text-red-600 dark:text-red-400"
-                    data-testid="button-logout"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
+                  <DropdownMenuItem asChild>
+                    <a 
+                      href="/api/logout"
+                      className="flex items-center w-full text-red-600 dark:text-red-400"
+                      data-testid="button-logout"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Logout
+                    </a>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

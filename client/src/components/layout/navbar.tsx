@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Menu, X, Shield, User, LogOut, Calendar } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Navbar() {
   const [location] = useLocation();
@@ -92,7 +92,7 @@ export default function Navbar() {
               </DropdownMenu>
             ) : (
               <>
-                <Link href="/api/login" data-testid="link-login">
+                <Link href="/login" data-testid="link-login">
                   <Button variant="outline">
                     Login
                   </Button>

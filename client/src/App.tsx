@@ -13,6 +13,8 @@ import Portal from "@/pages/portal";
 import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
 import BlogEditor from "@/pages/blog-editor";
+import TestimonialSubmit from "@/pages/testimonial-submit";
+import TestimonialsAdmin from "@/pages/testimonials-admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +31,8 @@ function Router() {
       <Route path="/blog/create" component={BlogEditor} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/blog/:slug/edit" component={BlogEditor} />
+      <Route path="/testimonials/submit" component={TestimonialSubmit} />
+      <Route path="/testimonials/admin" component={TestimonialsAdmin} />
       <Route component={NotFound} />
     </Switch>
   );

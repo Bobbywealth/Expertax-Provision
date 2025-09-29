@@ -1,30 +1,23 @@
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, MessageSquare } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { type Testimonial } from "@shared/schema";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
-const testimonials = [
-  {
-    name: "Sarah Mitchell",
-    role: "Small Business Owner",
-    content: "Provision ExperTax saved me thousands on my business taxes. Their expertise in finding deductions I didn't even know existed was incredible.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400"
-  },
-  {
-    name: "Michael Chen",
-    role: "Software Engineer",
-    content: "Professional, knowledgeable, and always available to answer questions. They made tax season stress-free for the first time in years.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400"
-  },
-  {
-    name: "Jennifer Rodriguez",
-    role: "Real Estate Investor",
-    content: "Their tax planning strategies have been a game-changer for my investment portfolio. Highly recommend for anyone with complex tax situations.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400"
-  }
+// Default avatars for testimonials
+const defaultAvatars = [
+  "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400",
+  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=400"
 ];
 
 export default function Testimonials() {
+  const { data: testimonials = [], isLoading } = useQuery<Testimonial[]>({
+    queryKey: ['/api/testimonials'],
+  });
+
   return (
     <section className="py-20 bg-muted" data-testid="testimonials-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,49 +30,74 @@ export default function Testimonials() {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div 
-              key={index}
-              className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 group"
-              data-testid={`card-testimonial-${index}`}
-            >
-              <div className="flex items-center mb-4">
-                <Quote className="h-8 w-8 text-primary/20 group-hover:text-primary/40 transition-colors duration-300" />
-              </div>
-              
-              <div className="flex items-center mb-4">
-                {[...Array(testimonial.rating)].map((_, starIndex) => (
-                  <Star 
-                    key={starIndex} 
-                    className="h-4 w-4 text-yellow-400 fill-current" 
-                    data-testid={`star-${index}-${starIndex}`}
+        {testimonials.length > 0 ? (
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={testimonial.id}
+                className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 group"
+                data-testid={`card-testimonial-${testimonial.id}`}
+              >
+                <div className="flex items-center mb-4">
+                  <Quote className="h-8 w-8 text-primary/20 group-hover:text-primary/40 transition-colors duration-300" />
+                </div>
+                
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, starIndex) => (
+                    <Star 
+                      key={starIndex} 
+                      className="h-4 w-4 text-yellow-400 fill-current" 
+                      data-testid={`star-${testimonial.id}-${starIndex}`}
+                    />
+                  ))}
+                </div>
+                
+                <p className="text-muted-foreground mb-6 italic" data-testid={`text-testimonial-content-${testimonial.id}`}>
+                  "{testimonial.testimonialText}"
+                </p>
+                
+                <div className="flex items-center">
+                  <img 
+                    src={defaultAvatars[index % defaultAvatars.length]} 
+                    alt={testimonial.clientName}
+                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    data-testid={`img-testimonial-${testimonial.id}`}
                   />
-                ))}
-              </div>
-              
-              <p className="text-muted-foreground mb-6 italic" data-testid={`text-testimonial-content-${index}`}>
-                "{testimonial.content}"
-              </p>
-              
-              <div className="flex items-center">
-                <img 
-                  src={testimonial.image} 
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                  data-testid={`img-testimonial-${index}`}
-                />
-                <div>
-                  <div className="font-semibold text-foreground" data-testid={`text-testimonial-name-${index}`}>
-                    {testimonial.name}
-                  </div>
-                  <div className="text-sm text-muted-foreground" data-testid={`text-testimonial-role-${index}`}>
-                    {testimonial.role}
+                  <div>
+                    <div className="font-semibold text-foreground" data-testid={`text-testimonial-name-${testimonial.id}`}>
+                      {testimonial.clientName}
+                    </div>
+                    <div className="text-sm text-muted-foreground" data-testid={`text-testimonial-service-${testimonial.id}`}>
+                      {testimonial.service || "Tax Services"}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            {isLoading ? (
+              <div className="space-y-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                <p className="text-muted-foreground">Loading testimonials...</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <MessageSquare className="h-16 w-16 text-muted-foreground/50 mx-auto" />
+                <p className="text-muted-foreground">No testimonials yet.</p>
+              </div>
+            )}
+          </div>
+        )}
+        
+        <div className="text-center mt-12">
+          <Link href="/testimonials/submit">
+            <Button variant="outline" className="gap-2" data-testid="button-submit-testimonial">
+              <MessageSquare className="h-4 w-4" />
+              Share Your Experience
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

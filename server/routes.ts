@@ -371,40 +371,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof z.ZodError) {
         res.status(400).json({ message: "Invalid testimonial data", errors: error.errors });
       } else {
+        console.error("Testimonial creation error:", error);
         res.status(500).json({ message: "Failed to submit testimonial" });
       }
     }
   });
 
-  app.get("/api/testimonials", async (req, res) => {
+  app.get("/api/testimonials", async (req: any, res) => {
     try {
       const { approved } = req.query;
-      const testimonials = await storage.getTestimonials(
-        approved === 'true' ? true : approved === 'false' ? false : undefined
-      );
+      const isAuthenticated = req.user; // Check if user is authenticated
+      
+      // For unauthenticated users, only show approved testimonials
+      const showApproved = isAuthenticated ? 
+        (approved === 'true' ? true : approved === 'false' ? false : undefined) :
+        true;
+      
+      const testimonials = await storage.getTestimonials(showApproved);
       res.json(testimonials);
     } catch (error) {
+      console.error("Testimonials fetch error:", error);
       res.status(500).json({ message: "Failed to fetch testimonials" });
     }
   });
 
-  app.patch("/api/testimonials/:id/approve", async (req, res) => {
+  app.patch("/api/testimonials/:id/approve", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const testimonial = await storage.approveTestimonial(id);
       res.json(testimonial);
     } catch (error) {
+      console.error("Testimonial approve error:", error);
       res.status(500).json({ message: "Failed to approve testimonial" });
     }
   });
 
-  app.patch("/api/testimonials/:id/feature", async (req, res) => {
+  app.patch("/api/testimonials/:id/feature", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { featured } = req.body;
       const testimonial = await storage.featureTestimonial(id, featured);
       res.json(testimonial);
     } catch (error) {
+      console.error("Testimonial feature error:", error);
       res.status(500).json({ message: "Failed to update testimonial feature status" });
     }
   });

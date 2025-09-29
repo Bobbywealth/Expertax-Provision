@@ -148,6 +148,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Calendly integration routes
+  app.get("/api/calendly/user", isAuthenticated, async (req: any, res) => {
+    try {
+      const response = await fetch('https://api.calendly.com/users/me', {
+        headers: {
+          'Authorization': `Bearer ${process.env.CALENDLY_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Calendly API error: ${response.status}`);
+      }
+      
+      const userData = await response.json();
+      res.json(userData);
+    } catch (error) {
+      console.error("Calendly user fetch error:", error);
+      res.status(500).json({ message: "Failed to fetch Calendly user data" });
+    }
+  });
+
+  app.get("/api/calendly/events", isAuthenticated, async (req: any, res) => {
+    try {
+      // First get user info to get the user URI
+      const userResponse = await fetch('https://api.calendly.com/users/me', {
+        headers: {
+          'Authorization': `Bearer ${process.env.CALENDLY_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!userResponse.ok) {
+        throw new Error(`Calendly API error: ${userResponse.status}`);
+      }
+      
+      const userData = await userResponse.json();
+      const userUri = userData.resource.uri;
+      
+      // Get scheduled events for the user
+      const eventsResponse = await fetch(`https://api.calendly.com/scheduled_events?user=${userUri}&sort=start_time:asc`, {
+        headers: {
+          'Authorization': `Bearer ${process.env.CALENDLY_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!eventsResponse.ok) {
+        throw new Error(`Calendly API error: ${eventsResponse.status}`);
+      }
+      
+      const eventsData = await eventsResponse.json();
+      
+      // Transform Calendly events to match our appointment format
+      const transformedEvents = eventsData.collection.map((event: any) => ({
+        id: event.uri.split('/').pop(),
+        clientName: event.name || 'Unknown',
+        clientEmail: 'calendly-booking@example.com', // We'll get this from invitees
+        clientPhone: null,
+        service: event.event_type.name,
+        agentId: null,
+        appointmentDate: event.start_time,
+        duration: Math.round((new Date(event.end_time).getTime() - new Date(event.start_time).getTime()) / 60000),
+        status: event.status === 'active' ? 'confirmed' : event.status,
+        notes: event.location?.join_url || event.location?.location || null,
+        createdAt: event.created_at,
+        source: 'calendly'
+      }));
+      
+      res.json(transformedEvents);
+    } catch (error) {
+      console.error("Calendly events fetch error:", error);
+      res.status(500).json({ message: "Failed to fetch Calendly events" });
+    }
+  });
+
+  app.get("/api/calendly/events/:eventId/invitees", isAuthenticated, async (req: any, res) => {
+    try {
+      const { eventId } = req.params;
+      const response = await fetch(`https://api.calendly.com/scheduled_events/${eventId}/invitees`, {
+        headers: {
+          'Authorization': `Bearer ${process.env.CALENDLY_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Calendly API error: ${response.status}`);
+      }
+      
+      const inviteesData = await response.json();
+      res.json(inviteesData);
+    } catch (error) {
+      console.error("Calendly invitees fetch error:", error);
+      res.status(500).json({ message: "Failed to fetch event invitees" });
+    }
+  });
+
   // Secure document download endpoint
   app.get("/api/documents/:id/download", isAuthenticated, async (req: any, res) => {
     try {

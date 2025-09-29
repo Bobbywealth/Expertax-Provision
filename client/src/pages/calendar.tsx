@@ -34,7 +34,7 @@ export default function Calendar() {
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
 
   const { data: appointments = [], isLoading } = useQuery<Appointment[]>({
-    queryKey: ['/api/appointments'],
+    queryKey: ['/api/calendly/events'],
     enabled: !!user,
   });
 
@@ -42,7 +42,7 @@ export default function Calendar() {
     mutationFn: ({ id, status }: { id: string; status: string }) => 
       apiRequest("PATCH", `/api/appointments/${id}/status`, { status }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/appointments'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/calendly/events'] });
       setSelectedAppointment(null);
       toast({
         title: "Status updated",
@@ -161,23 +161,34 @@ export default function Calendar() {
               </div>
             )}
 
-            <div className="pt-4 border-t">
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">Update Status</label>
-              <div className="flex gap-2">
-                {['pending', 'confirmed', 'completed', 'cancelled'].map((status) => (
-                  <Button
-                    key={status}
-                    size="sm"
-                    variant={appointment.status === status ? "default" : "outline"}
-                    onClick={() => updateStatus.mutate({ id: appointment.id, status })}
-                    disabled={updateStatus.isPending}
-                    data-testid={`button-status-${status}`}
-                  >
-                    {status}
-                  </Button>
-                ))}
+            {(appointment as any).source !== 'calendly' && (
+              <div className="pt-4 border-t">
+                <label className="text-sm font-medium text-muted-foreground mb-2 block">Update Status</label>
+                <div className="flex gap-2">
+                  {['pending', 'confirmed', 'completed', 'cancelled'].map((status) => (
+                    <Button
+                      key={status}
+                      size="sm"
+                      variant={appointment.status === status ? "default" : "outline"}
+                      onClick={() => updateStatus.mutate({ id: appointment.id, status })}
+                      disabled={updateStatus.isPending}
+                      data-testid={`button-status-${status}`}
+                    >
+                      {status}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+            
+            {(appointment as any).source === 'calendly' && (
+              <div className="pt-4 border-t">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <CalendarIcon className="w-4 h-4" />
+                  <span>This appointment was booked through Calendly. Manage it through your Calendly account.</span>
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

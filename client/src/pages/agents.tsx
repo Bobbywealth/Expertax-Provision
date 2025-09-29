@@ -49,7 +49,7 @@ export default function Agents() {
                   <img 
                     src={agent.imageUrl} 
                     alt={agent.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-56 object-cover object-top"
                     data-testid={`img-agent-${index}`}
                   />
                   <div className="p-6">

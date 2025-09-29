@@ -46,12 +46,15 @@ export default function Agents() {
                   className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
                   data-testid={`card-agent-${index}`}
                 >
-                  <img 
-                    src={agent.imageUrl} 
-                    alt={agent.name}
-                    className="w-full h-56 object-cover object-top"
-                    data-testid={`img-agent-${index}`}
-                  />
+                  <div className="w-full h-64 overflow-hidden bg-gray-100">
+                    <img 
+                      src={agent.imageUrl} 
+                      alt={agent.name}
+                      className="w-full h-full object-cover object-center"
+                      style={{ objectPosition: '50% 20%' }}
+                      data-testid={`img-agent-${index}`}
+                    />
+                  </div>
                   <div className="p-6">
                     <h3 className="text-xl font-semibold mb-2" data-testid={`text-agent-name-${index}`}>
                       {agent.name}

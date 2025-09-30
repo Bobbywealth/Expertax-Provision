@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, X, Shield, User, LogOut, Calendar } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -49,61 +46,11 @@ export default function Navbar() {
                 </span>
               </Link>
             ))}
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="gap-2" data-testid="button-user-menu">
-                    <User className="w-4 h-4" />
-                    {user.firstName || "User"}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
-                    <Link href="/portal" className="w-full" data-testid="link-portal">
-                      <User className="w-4 h-4 mr-2" />
-                      Client Portal
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/calendar" className="w-full" data-testid="link-calendar">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Calendar
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/testimonials/admin" className="w-full" data-testid="link-testimonials-admin">
-                      <Shield className="w-4 h-4 mr-2" />
-                      Manage Testimonials
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <a 
-                      href="/api/logout"
-                      className="flex items-center w-full text-red-600 dark:text-red-400"
-                      data-testid="button-logout"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Logout
-                    </a>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Link href="/login" data-testid="link-login">
-                  <Button variant="outline">
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/contact" data-testid="link-contact">
-                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                    Contact Us
-                  </Button>
-                </Link>
-              </>
-            )}
+            <Link href="/contact" data-testid="link-contact">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                Contact Us
+              </Button>
+            </Link>
           </div>
           
           <div className="md:hidden">

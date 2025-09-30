@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import Services from "@/pages/services";
 import Pricing from "@/pages/pricing";
 import Agents from "@/pages/agents";
+import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import Appointments from "@/pages/appointments";
 import Portal from "@/pages/portal";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/agents" component={Agents} />
+      <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       <Route path="/appointments" component={Appointments} />
       <Route path="/login" component={Login} />

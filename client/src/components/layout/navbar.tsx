@@ -20,7 +20,6 @@ export default function Navbar() {
     { href: "/pricing", label: "Pricing" },
     { href: "/agents", label: "Our Team" },
     { href: "/about", label: "About Us" },
-    { href: "/blog", label: "Blog" },
     { href: "/appointments", label: "Book Appointment" },
   ];
 

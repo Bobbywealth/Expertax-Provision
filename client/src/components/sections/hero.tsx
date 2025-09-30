@@ -50,7 +50,7 @@ export default function Hero() {
                 </Button>
               </Link>
               <Link href="/services" data-testid="link-view-services">
-                <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105 text-lg">
+                <Button variant="outline" className="border-2 border-white text-white bg-transparent px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105 text-lg backdrop-blur-sm">
                   View Services
                 </Button>
               </Link>

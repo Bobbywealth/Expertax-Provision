@@ -51,7 +51,7 @@ export default function Agents() {
                       src={agent.imageUrl} 
                       alt={agent.name}
                       className="w-full h-full object-cover"
-                      style={{ objectPosition: '50% 30%' }}
+                      style={{ objectPosition: '50% 15%' }}
                       data-testid={`img-agent-${index}`}
                     />
                   </div>

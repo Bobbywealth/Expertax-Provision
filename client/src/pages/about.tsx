@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
 import { Heart, Shield, Users, TrendingUp } from "lucide-react";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 export default function About() {
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,6 +138,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

@@ -11,8 +11,6 @@ import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import Appointments from "@/pages/appointments";
 import TestimonialSubmit from "@/pages/testimonial-submit";
-import TestimonialsAdmin from "@/pages/testimonials-admin";
-import Calendar from "@/pages/calendar";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -26,8 +24,6 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/appointments" component={Appointments} />
       <Route path="/testimonials/submit" component={TestimonialSubmit} />
-      <Route path="/testimonials/admin" component={TestimonialsAdmin} />
-      <Route path="/calendar" component={Calendar} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -4,7 +4,6 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import path from "path";
 import { storage } from "./storage";
-import { setupAuth, requireAuth } from "./auth";
 import { 
   insertContactSchema, insertAppointmentSchema, 
   insertDocumentSchema, insertBlogPostSchema, insertTestimonialSchema 
@@ -48,10 +47,6 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes are now handled in auth.ts (register, login, logout, user)
 
   // Contact form submission
   app.post("/api/contacts", async (req, res) => {
@@ -139,7 +134,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Calendly integration routes
-  app.get("/api/calendly/user", requireAuth, async (req: any, res) => {
+  app.get("/api/calendly/user", async (req: any, res) => {
     try {
       const response = await fetch('https://api.calendly.com/users/me', {
         headers: {
@@ -160,7 +155,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/calendly/events", requireAuth, async (req: any, res) => {
+  app.get("/api/calendly/events", async (req: any, res) => {
     try {
       // First get user info to get the user URI
       const userResponse = await fetch('https://api.calendly.com/users/me', {
@@ -214,7 +209,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/calendly/events/:eventId/invitees", requireAuth, async (req: any, res) => {
+  app.get("/api/calendly/events/:eventId/invitees", async (req: any, res) => {
     try {
       const { eventId } = req.params;
       const response = await fetch(`https://api.calendly.com/scheduled_events/${eventId}/invitees`, {
@@ -237,7 +232,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Secure document download endpoint
-  app.get("/api/documents/:id/download", requireAuth, async (req: any, res) => {
+  app.get("/api/documents/:id/download", async (req: any, res) => {
     try {
       const { id } = req.params;
       const userEmail = req.user?.claims?.email;
@@ -264,7 +259,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Document routes - File upload endpoint
-  app.post("/api/documents", requireAuth, upload.single('file'), async (req: any, res) => {
+  app.post("/api/documents", upload.single('file'), async (req: any, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file provided" });
@@ -307,7 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/documents", requireAuth, async (req: any, res) => {
+  app.get("/api/documents", async (req: any, res) => {
     try {
       const userEmail = req.user?.claims?.email;
       if (!userEmail) {
@@ -327,7 +322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/documents/:id/status", requireAuth, async (req: any, res) => {
+  app.patch("/api/documents/:id/status", async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -360,7 +355,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Blog routes
-  app.post("/api/blog", requireAuth, async (req: any, res) => {
+  app.post("/api/blog", async (req: any, res) => {
     try {
       const blogData = insertBlogPostSchema.parse(req.body);
       const blogPost = await storage.createBlogPost(blogData);
@@ -414,7 +409,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/blog/:id", requireAuth, async (req: any, res) => {
+  app.patch("/api/blog/:id", async (req: any, res) => {
     try {
       const { id } = req.params;
       
@@ -438,7 +433,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/blog/:id/publish", requireAuth, async (req: any, res) => {
+  app.patch("/api/blog/:id/publish", async (req: any, res) => {
     try {
       const { id } = req.params;
       const blogPost = await storage.publishBlogPost(id);
@@ -483,7 +478,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/testimonials/:id/approve", requireAuth, async (req: any, res) => {
+  app.patch("/api/testimonials/:id/approve", async (req: any, res) => {
     try {
       const { id } = req.params;
       const testimonial = await storage.approveTestimonial(id);
@@ -494,7 +489,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/testimonials/:id/feature", requireAuth, async (req: any, res) => {
+  app.patch("/api/testimonials/:id/feature", async (req: any, res) => {
     try {
       const { id } = req.params;
       const { featured } = req.body;

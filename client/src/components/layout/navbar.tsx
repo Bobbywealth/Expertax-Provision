@@ -17,7 +17,6 @@ export default function Navbar() {
     { href: "/pricing", label: "Pricing" },
     { href: "/agents", label: "Our Team" },
     { href: "/about", label: "About Us" },
-    { href: "/appointments", label: "Book Appointment" },
   ];
 
   return (
@@ -46,8 +45,13 @@ export default function Navbar() {
                 </span>
               </Link>
             ))}
+            <Link href="/appointments" data-testid="link-book-appointment">
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-md">
+                Book Appointment
+              </Button>
+            </Link>
             <Link href="/contact" data-testid="link-contact">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                 Contact Us
               </Button>
             </Link>
@@ -76,6 +80,13 @@ export default function Navbar() {
                 </div>
               </Link>
             ))}
+            <Link href="/appointments" data-testid="mobile-link-book-appointment">
+              <div className="block py-2">
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800">
+                  Book Appointment
+                </Button>
+              </div>
+            </Link>
             <Link href="/contact" data-testid="mobile-link-contact">
               <div className="block py-2 text-foreground hover:text-primary transition-colors duration-200">
                 Contact Us

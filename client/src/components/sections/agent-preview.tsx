@@ -1,16 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Mail, ArrowRight } from "lucide-react";
-import type { Agent } from "@shared/schema";
+import { agents } from "@/data/agents";
 
 export default function AgentPreview() {
-  const { data: agents, isLoading } = useQuery<Agent[]>({
-    queryKey: ['/api/agents'],
-  });
-
-  const previewAgents = agents?.slice(0, 3) || [];
+  const previewAgents = agents.slice(0, 3);
 
   return (
     <section className="py-20 bg-background" data-testid="agent-preview-section">
@@ -24,21 +19,7 @@ export default function AgentPreview() {
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-card border border-border rounded-xl overflow-hidden animate-pulse" data-testid={`skeleton-preview-agent-${i}`}>
-                <div className="w-full h-[400px] bg-gray-300"></div>
-                <div className="p-6 space-y-3">
-                  <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                  <div className="h-16 bg-gray-300 rounded"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
             {previewAgents.map((agent, index) => (
               <div 
                 key={agent.id}
@@ -89,7 +70,6 @@ export default function AgentPreview() {
               </div>
             ))}
           </div>
-        )}
 
         <div className="text-center">
           <Link href="/agents" data-testid="link-view-all-agents">

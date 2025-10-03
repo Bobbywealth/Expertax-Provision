@@ -147,7 +147,26 @@ export class DatabaseStorage implements IStorage {
 
   // Agent methods
   async getAgents(): Promise<Agent[]> {
-    return await db.select().from(agents);
+    const allAgents = await db.select().from(agents);
+    
+    // Custom ordering: Sandy, AI Tax Agent, Jennifer Constantino
+    const order = ['Sandy', 'AI Tax Agent', 'Jennifer Constantino'];
+    return allAgents.sort((a, b) => {
+      const aIndex = order.indexOf(a.name);
+      const bIndex = order.indexOf(b.name);
+      
+      // If both found in order array, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+      }
+      
+      // If only one found, put it first
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+      
+      // If neither found, keep original order
+      return 0;
+    });
   }
 
   async initializeData(): Promise<void> {

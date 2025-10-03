@@ -102,28 +102,28 @@ export class DatabaseStorage implements IStorage {
 
     const sampleAgents: InsertAgent[] = [
       {
-        name: "Sarah Johnson",
-        title: "Senior Tax Advisor, CPA",
-        bio: "15+ years specializing in individual and small business tax preparation. Expert in tax planning and IRS representation.",
-        email: "sarah@provisionexpertax.com",
-        imageUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
-        credentials: ["CPA", "Tax Planning", "IRS Representation"]
+        name: "Sandy",
+        title: "Tax Preparation Specialist, CPA",
+        bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and achieve financial peace of mind.",
+        email: "sandy@provisionexpertax.com",
+        imageUrl: "https://i.ibb.co/FzY9JsH/IMG-6644.jpg",
+        credentials: ["CPA", "Individual Tax Prep", "+1 more"]
       },
       {
-        name: "Michael Chen",
-        title: "Business Tax Specialist, EA",
-        bio: "12+ years focusing on corporate tax, partnerships, and complex business structures. Specializes in multi-state tax compliance.",
-        email: "michael@provisionexpertax.com",
-        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
-        credentials: ["Enrolled Agent", "Corporate Tax", "Multi-State"]
+        name: "AI Tax Agent",
+        title: "Automated Tax Assistant",
+        bio: "Our cutting-edge AI technology provides instant calculations, preliminary tax guidance, and 24/7 support. Perfect for quick questions and simple tax scenarios.",
+        email: "ai@provisionexpertax.com",
+        imageUrl: "https://i.ibb.co/N7gZd3Z/ai-tax-agent-professional.png",
+        credentials: ["AI Technology", "24/7 Support", "+2 more"]
       },
       {
-        name: "Jennifer Rodriguez",
-        title: "Tax Resolution Expert, CPA",
-        bio: "10+ years specializing in tax resolution, audit defense, and helping clients resolve complex tax issues with the IRS.",
-        email: "jennifer@provisionexpertax.com",
-        imageUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300",
-        credentials: ["CPA", "Tax Resolution", "Audit Defense"]
+        name: "Jennifer Constantino",
+        title: "Senior Tax Consultant",
+        bio: "Dedicated tax professional based in Hollywood, FL, providing comprehensive tax preparation and consultation services. Committed to delivering personalized financial guidance.",
+        email: "jennconstantino93@gmail.com",
+        imageUrl: "https://i.ibb.co/WnwqvGR/IMG-6643.jpg",
+        credentials: ["Tax Preparation", "Business Consulting", "+1 more"]
       }
     ];
 

@@ -28,7 +28,7 @@ export default function AgentPreview() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {[1, 2, 3].map((i) => (
               <div key={i} className="bg-card border border-border rounded-xl overflow-hidden animate-pulse" data-testid={`skeleton-preview-agent-${i}`}>
-                <div className="w-full h-64 bg-gray-300"></div>
+                <div className="w-full h-[400px] bg-gray-300"></div>
                 <div className="p-6 space-y-3">
                   <div className="h-6 bg-gray-300 rounded w-3/4"></div>
                   <div className="h-4 bg-gray-300 rounded w-1/2"></div>
@@ -49,7 +49,7 @@ export default function AgentPreview() {
                   <img 
                     src={agent.imageUrl} 
                     alt={agent.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-[400px] object-cover object-top group-hover:scale-110 transition-transform duration-500"
                     data-testid={`img-preview-agent-${index}`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

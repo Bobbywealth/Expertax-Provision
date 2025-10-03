@@ -1,14 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
 import { Mail } from "lucide-react";
-import type { Agent } from "@shared/schema";
+import { agents } from "@/data/agents";
 
 export default function Agents() {
-  const { data: agents, isLoading } = useQuery<Agent[]>({
-    queryKey: ['/api/agents'],
-  });
 
   return (
     <div className="min-h-screen bg-background" data-testid="page-agents">
@@ -25,21 +21,7 @@ export default function Agents() {
             </p>
           </div>
           
-          {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-card border border-border rounded-lg overflow-hidden animate-pulse" data-testid={`skeleton-agent-${i}`}>
-                  <div className="w-full h-48 bg-gray-300"></div>
-                  <div className="p-6 space-y-3">
-                    <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-                    <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                    <div className="h-16 bg-gray-300 rounded"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : agents && agents.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {agents.map((agent, index) => (
                 <div 
                   key={agent.id}
@@ -83,11 +65,6 @@ export default function Agents() {
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-12" data-testid="empty-agents">
-              <p className="text-muted-foreground">No agents available at this time.</p>
-            </div>
-          )}
         </div>
       </section>
       

@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p data-testid="text-copyright">&copy; 2024 Provision ExperTax Services. All rights reserved. | Licensed Tax Professionals</p>
+          <p data-testid="text-copyright">&copy; 2025 Provision ExperTax Services. All rights reserved. | Licensed Tax Professionals</p>
         </div>
       </div>
     </footer>

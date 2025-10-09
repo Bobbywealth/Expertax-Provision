@@ -78,6 +78,11 @@ export default function Hero() {
                 <div className="text-xs text-gray-600">On-Time Filing</div>
               </div>
             </div>
+            <div className="text-center mt-6">
+              <p className="text-white text-lg font-semibold" data-testid="text-founder-caption">
+                CEO & Founder Alexandra Isaac
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -61,9 +61,9 @@ export default function Hero() {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-2xl"></div>
               <img 
-                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-                alt="Professional tax consultation with calculator and documents" 
-                className="rounded-2xl shadow-2xl w-full h-auto relative transform hover:scale-105 transition-transform duration-500"
+                src="https://iili.io/Kw9hibf.png" 
+                alt="Alexandra - Founder of Provision ExperTax" 
+                className="rounded-2xl shadow-2xl w-full h-[500px] object-cover object-center relative transform hover:scale-105 transition-transform duration-500"
                 data-testid="img-hero"
               />
               

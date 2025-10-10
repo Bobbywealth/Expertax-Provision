@@ -1,10 +1,15 @@
-import { Shield, DollarSign, Clock } from "lucide-react";
+import { Shield, DollarSign, Clock, CheckCircle } from "lucide-react";
 
 export default function About() {
   return (
     <section className="py-20 bg-muted" data-testid="about-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
+          <div className="inline-flex items-center bg-primary/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-primary/20">
+            <CheckCircle className="h-4 w-4 mr-2 text-primary" />
+            <span className="text-sm font-medium text-foreground">Trusted by 500+ Clients</span>
+          </div>
+          
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4" data-testid="text-about-title">
             Why Choose Provision ExperTax?
           </h2>

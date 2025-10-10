@@ -24,12 +24,12 @@ export default function Hero() {
 
             {/* Mobile Founder Image - After Headline */}
             <div className="lg:hidden mb-8 flex flex-col items-center">
-              <div className="relative w-64">
+              <div className="relative w-72">
                 <div className="absolute -inset-2 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-xl"></div>
                 <img 
                   src="https://iili.io/Kw9hibf.png" 
                   alt="Alexandra - Founder of Provision ExperTax" 
-                  className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
+                  className="rounded-2xl shadow-2xl w-full h-96 object-cover object-center relative"
                   data-testid="img-hero-mobile"
                 />
                 

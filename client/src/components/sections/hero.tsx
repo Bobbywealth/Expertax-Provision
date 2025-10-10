@@ -26,6 +26,22 @@ export default function Hero() {
                 Success
               </span>
             </h1>
+
+            {/* Mobile Founder Image - After Headline */}
+            <div className="lg:hidden mb-8 flex flex-col items-center">
+              <div className="relative w-64">
+                <div className="absolute -inset-2 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-xl"></div>
+                <img 
+                  src="https://iili.io/Kw9hibf.png" 
+                  alt="Alexandra - Founder of Provision ExperTax" 
+                  className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
+                  data-testid="img-hero-mobile"
+                />
+              </div>
+              <p className="text-white text-base font-semibold mt-4" data-testid="text-founder-caption-mobile">
+                CEO & Founder Alexandra Isaac
+              </p>
+            </div>
             
             <p className="text-xl lg:text-2xl mb-8 opacity-90 leading-relaxed" data-testid="text-hero-description">
               Professional tax preparation, planning, and consultation services tailored to maximize your returns and minimize your stress.
@@ -54,22 +70,6 @@ export default function Hero() {
                   View Services
                 </Button>
               </Link>
-            </div>
-
-            {/* Mobile Founder Image - Below Text Content */}
-            <div className="lg:hidden mt-12 flex flex-col items-center">
-              <div className="relative w-64">
-                <div className="absolute -inset-2 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-xl"></div>
-                <img 
-                  src="https://iili.io/Kw9hibf.png" 
-                  alt="Alexandra - Founder of Provision ExperTax" 
-                  className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
-                  data-testid="img-hero-mobile"
-                />
-              </div>
-              <p className="text-white text-base font-semibold mt-4" data-testid="text-founder-caption-mobile">
-                CEO & Founder Alexandra Isaac
-              </p>
             </div>
           </div>
           

@@ -13,22 +13,6 @@ export default function Hero() {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Mobile Founder Image */}
-        <div className="lg:hidden mb-12 flex flex-col items-center">
-          <div className="relative w-64">
-            <div className="absolute -inset-2 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-xl"></div>
-            <img 
-              src="https://iili.io/Kw9hibf.png" 
-              alt="Alexandra - Founder of Provision ExperTax" 
-              className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
-              data-testid="img-hero-mobile"
-            />
-          </div>
-          <p className="text-white text-base font-semibold mt-4" data-testid="text-founder-caption-mobile">
-            CEO & Founder Alexandra Isaac
-          </p>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-white/20">
@@ -70,6 +54,22 @@ export default function Hero() {
                   View Services
                 </Button>
               </Link>
+            </div>
+
+            {/* Mobile Founder Image - Below Text Content */}
+            <div className="lg:hidden mt-12 flex flex-col items-center">
+              <div className="relative w-64">
+                <div className="absolute -inset-2 bg-gradient-to-r from-yellow-300/20 to-orange-300/20 rounded-2xl blur-xl"></div>
+                <img 
+                  src="https://iili.io/Kw9hibf.png" 
+                  alt="Alexandra - Founder of Provision ExperTax" 
+                  className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
+                  data-testid="img-hero-mobile"
+                />
+              </div>
+              <p className="text-white text-base font-semibold mt-4" data-testid="text-founder-caption-mobile">
+                CEO & Founder Alexandra Isaac
+              </p>
             </div>
           </div>
           

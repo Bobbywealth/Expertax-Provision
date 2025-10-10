@@ -32,6 +32,17 @@ export default function Hero() {
                   className="rounded-2xl shadow-2xl w-full h-80 object-cover object-center relative"
                   data-testid="img-hero-mobile"
                 />
+                
+                {/* Floating Stats Cards for Mobile */}
+                <div className="absolute -bottom-4 -left-4 bg-white text-gray-800 p-3 rounded-xl shadow-xl animate-bounce">
+                  <div className="text-xl font-bold text-primary">$2.5M+</div>
+                  <div className="text-xs text-gray-600">Refunds Secured</div>
+                </div>
+                
+                <div className="absolute -top-4 -right-4 bg-white text-gray-800 p-3 rounded-xl shadow-xl animate-pulse">
+                  <div className="text-xl font-bold text-secondary">99%</div>
+                  <div className="text-xs text-gray-600">On-Time Filing</div>
+                </div>
               </div>
               <p className="text-white text-base font-semibold mt-4" data-testid="text-founder-caption-mobile">
                 CEO & Founder Alexandra Isaac

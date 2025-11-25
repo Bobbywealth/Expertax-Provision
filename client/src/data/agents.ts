@@ -12,19 +12,19 @@ export const agents: Agent[] = [
   {
     id: "sandy-001",
     name: "Sandy",
-    title: "Tax Preparation Specialist, CPA",
+    title: "Tax specialist Master EFIN",
     bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and navigate complex tax situations with ease.",
     email: "sandy@provisionexpertax.com",
     imageUrl: "https://iili.io/KG5hSj4.png",
-    credentials: ["CPA", "Individual Tax Prep", "Family Tax Planning"]
+    credentials: ["Master EFIN", "Individual Tax Prep", "Family Tax Planning"]
   },
   {
     id: "jennifer-001",
     name: "Jennifer Constantino",
-    title: "Senior Tax Consultant",
+    title: "Tax specialist Master EFIN",
     bio: "Dedicated tax professional based in Hollywood, FL, providing comprehensive tax preparation and consultation services. Committed to delivering personalized solutions for individuals and businesses throughout South Florida.",
     email: "jennconstantino93@gmail.com",
     imageUrl: "https://iili.io/KG5vRR9.png",
-    credentials: ["Tax Preparation", "Business Consulting", "Individual Returns"]
+    credentials: ["Master EFIN", "Tax Preparation", "Business Consulting"]
   }
 ];

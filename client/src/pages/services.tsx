@@ -84,25 +84,25 @@ export default function Services() {
     <div className="min-h-screen bg-background" data-testid="page-services">
       <Navbar />
       
-      <section className="py-24 bg-gradient-to-br from-white via-background to-background/95 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-white via-background to-background/95 relative overflow-hidden">
         {/* Decorative Elements */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl hidden md:block"></div>
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/5 rounded-full blur-3xl hidden md:block"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-20">
-            <div className="inline-block mb-4">
+          <div className="text-center mb-12 md:mb-20">
+            <div className="inline-block mb-3 md:mb-4">
               <span className="text-xs font-bold text-primary uppercase tracking-widest">Complete Solutions</span>
             </div>
-            <h1 className="text-5xl lg:text-6xl font-black text-foreground mb-6 tracking-tight" data-testid="text-services-title">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-4 md:mb-6 tracking-tight" data-testid="text-services-title">
               Complete Tax Solutions
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed" data-testid="text-services-description">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed" data-testid="text-services-description">
               Comprehensive tax solutions for individuals, families, and businesses of all sizes.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {services.map((service, index) => {
               const IconComponent = service.icon;
               return (
@@ -115,24 +115,24 @@ export default function Services() {
                   <div className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur`}></div>
                   
                   {/* Card */}
-                  <div className="relative bg-white border-2 border-border/50 rounded-2xl p-10 backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
+                  <div className="relative bg-white border-2 border-border/50 rounded-xl md:rounded-2xl p-6 md:p-10 backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
                     {/* Icon */}
-                    <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
-                      <IconComponent className="h-8 w-8 text-white" />
+                    <div className={`w-12 md:w-16 h-12 md:h-16 bg-gradient-to-br ${service.color} rounded-lg md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 transition-all duration-300 shadow-lg`}>
+                      <IconComponent className="h-6 md:h-8 w-6 md:w-8 text-white" />
                     </div>
                     
                     {/* Title */}
-                    <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={`text-service-title-${index}`}>
+                    <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 text-foreground group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={`text-service-title-${index}`}>
                       {service.title}
                     </h3>
                     
                     {/* Description */}
-                    <p className="text-muted-foreground mb-6 leading-relaxed flex-grow" data-testid={`text-service-description-${index}`}>
+                    <p className="text-sm md:text-base text-muted-foreground mb-4 md:mb-6 leading-relaxed flex-grow" data-testid={`text-service-description-${index}`}>
                       {service.description}
                     </p>
                     
                     {/* Features */}
-                    <ul className="text-sm text-muted-foreground space-y-3 mb-8 pb-8 border-b-2 border-border/30">
+                    <ul className="text-xs md:text-sm text-muted-foreground space-y-2 md:space-y-3 mb-6 md:mb-8 pb-6 md:pb-8 border-b-2 border-border/30">
                       {service.features.map((feature, featureIndex) => (
                         <li key={featureIndex} data-testid={`text-feature-${index}-${featureIndex}`} className="flex items-start group/item">
                           <span className={`text-transparent bg-gradient-to-r ${service.color} bg-clip-text font-bold mr-3 mt-0.5`}>✓</span>

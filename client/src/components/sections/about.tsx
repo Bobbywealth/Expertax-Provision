@@ -26,7 +26,7 @@ export default function About() {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-16">
           {[
             {
               icon: Shield,
@@ -61,13 +61,13 @@ export default function About() {
                 <div className={`absolute -inset-0.5 bg-gradient-to-br from-${colors[index]}/40 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur`}></div>
                 
                 {/* Card */}
-                <div className="relative bg-white border-2 border-border/50 rounded-2xl p-10 backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
+                <div className="relative bg-white border-2 border-border/50 rounded-xl md:rounded-2xl p-6 md:p-10 backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
                   {/* Icon */}
-                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl ${index === 0 ? 'bg-primary/15 text-primary' : index === 1 ? 'bg-secondary/15 text-secondary' : 'bg-accent/15 text-accent'}`}>
+                  <div className={`w-14 md:w-20 h-14 md:h-20 rounded-lg md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl ${index === 0 ? 'bg-primary/15 text-primary' : index === 1 ? 'bg-secondary/15 text-secondary' : 'bg-accent/15 text-accent'}`}>
                     <IconComponent className="h-10 w-10" />
                   </div>
                   
-                  <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={item.titleId}>
+                  <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 text-foreground group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={item.titleId}>
                     {item.title}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed flex-grow text-lg" data-testid={item.descId}>

@@ -38,7 +38,7 @@ export default function Testimonials() {
         </div>
         
         {testimonials.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-16">
             {testimonials.map((testimonial, index) => (
               <div 
                 key={testimonial.id}
@@ -49,9 +49,9 @@ export default function Testimonials() {
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/40 via-secondary/40 to-accent/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
                 
                 {/* Card Content */}
-                <div className="relative bg-white border-2 border-border/50 rounded-2xl p-8 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 hover:shadow-2xl flex flex-col h-full">
-                  <div className="mb-4">
-                    <Quote className="h-14 w-14 text-primary/15 group-hover:text-primary/25 transition-colors duration-300" />
+                <div className="relative bg-white border-2 border-border/50 rounded-xl md:rounded-2xl p-6 md:p-8 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 hover:shadow-2xl flex flex-col h-full">
+                  <div className="mb-3 md:mb-4">
+                    <Quote className="h-10 md:h-14 w-10 md:w-14 text-primary/15 group-hover:text-primary/25 transition-colors duration-300" />
                   </div>
                   
                   <div className="flex items-center mb-5 gap-1">

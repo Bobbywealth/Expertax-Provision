@@ -58,7 +58,7 @@ export default function ServicesPreview() {
           </p>
         </div>
         
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-16">
           {featuredServices.map((service, index) => {
             const IconComponent = service.icon;
             const staggerClass = index === 1 ? "lg:mt-8" : "";
@@ -72,13 +72,13 @@ export default function ServicesPreview() {
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur"></div>
                 
                 {/* Card Content */}
-                <div className="relative bg-card border-2 border-border/50 rounded-2xl p-8 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
+                <div className="relative bg-card border-2 border-border/50 rounded-xl md:rounded-2xl p-6 md:p-8 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
                   {/* Icon Container */}
-                  <div className={`w-16 h-16 ${service.colorClasses.bg} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+                  <div className={`w-14 md:w-16 h-14 md:h-16 ${service.colorClasses.bg} rounded-lg md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
                     <IconComponent className={`h-8 w-8 ${service.colorClasses.text} group-hover:rotate-12 transition-transform duration-300`} />
                   </div>
                   
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={`text-service-preview-title-${index}`}>
+                  <h3 className="text-lg md:text-2xl font-bold mb-3 md:mb-4 group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={`text-service-preview-title-${index}`}>
                     {service.title}
                   </h3>
                   

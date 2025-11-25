@@ -82,7 +82,7 @@ export default function Pricing() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-16">
             {pricingTiers.map((tier, index) => (
               <div 
                 key={index}

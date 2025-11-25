@@ -25,20 +25,20 @@ export default function Footer() {
       
       <div className="relative">
         {/* Top Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-b border-white/10">
-          <div className="grid md:grid-cols-4 gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 border-b border-white/10">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {/* Brand */}
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-3 mb-6">
+            <div className="sm:col-span-2">
+              <div className="flex items-center space-x-2 md:space-x-3 mb-4 md:mb-6">
                 <img 
                   src="https://iili.io/KEcaJUX.th.png" 
                   alt="Provision ExperTax Services Logo" 
-                  className="h-10 w-auto"
+                  className="h-7 md:h-10 w-auto"
                   data-testid="img-footer-logo"
                 />
-                <div className="text-2xl font-bold text-white tracking-tight">Provision ExperTax</div>
+                <div className="text-lg md:text-2xl font-bold text-white tracking-tight">Provision ExperTax</div>
               </div>
-              <p className="text-white/80 mb-6 leading-relaxed text-lg font-medium" data-testid="text-company-description">
+              <p className="text-white/80 mb-4 md:mb-6 leading-relaxed text-xs md:text-lg font-medium line-clamp-3" data-testid="text-company-description">
                 Your trusted partner for comprehensive tax solutions. We're committed to maximizing your returns and minimizing your tax burden through expert preparation and strategic planning.
               </p>
               <div className="flex space-x-6">
@@ -56,8 +56,8 @@ export default function Footer() {
             
             {/* Services */}
             <div>
-              <h4 className="text-lg font-bold mb-6 text-white uppercase tracking-widest text-sm" data-testid="text-services-heading">Services</h4>
-              <ul className="space-y-3 text-white/70">
+              <h4 className="text-base md:text-lg font-bold mb-3 md:mb-6 text-white uppercase tracking-widest text-xs md:text-sm" data-testid="text-services-heading">Services</h4>
+              <ul className="space-y-2 md:space-y-3 text-white/70 text-xs md:text-base">
                 <li><Link href="/services" data-testid="link-individual-tax"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Individual Tax Prep</span></Link></li>
                 <li><Link href="/services" data-testid="link-business-tax"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Business Tax Services</span></Link></li>
                 <li><Link href="/services" data-testid="link-tax-planning"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Tax Planning</span></Link></li>
@@ -68,8 +68,8 @@ export default function Footer() {
             
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-bold mb-6 text-white uppercase tracking-widest text-sm" data-testid="text-quick-links-heading">Quick Links</h4>
-              <ul className="space-y-3 text-white/70">
+              <h4 className="text-base md:text-lg font-bold mb-3 md:mb-6 text-white uppercase tracking-widest text-xs md:text-sm" data-testid="text-quick-links-heading">Quick Links</h4>
+              <ul className="space-y-2 md:space-y-3 text-white/70 text-xs md:text-base">
                 <li><Link href="/" data-testid="link-footer-home"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Home</span></Link></li>
                 <li><Link href="/pricing" data-testid="link-footer-pricing"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Pricing</span></Link></li>
                 <li><Link href="/agents" data-testid="link-footer-team"><span className="hover:text-white transition-colors duration-200 hover:translate-x-1 inline-block transform duration-300">Our Team</span></Link></li>
@@ -81,27 +81,27 @@ export default function Footer() {
         </div>
 
         {/* Contact Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-b border-white/10">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex items-start gap-4">
-              <Mail className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-              <div>
-                <div className="text-white/60 text-sm font-medium">Email Us</div>
-                <a href="mailto:info@experttax.com" className="text-white font-semibold hover:text-primary transition-colors duration-300">info@experttax.com</a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 border-b border-white/10">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="flex items-start gap-3">
+              <Mail className="h-5 md:h-6 w-5 md:w-6 text-primary flex-shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <div className="text-white/60 text-xs md:text-sm font-medium">Email Us</div>
+                <a href="mailto:info@experttax.com" className="text-white font-semibold hover:text-primary transition-colors duration-300 text-xs md:text-base truncate block">info@experttax.com</a>
               </div>
             </div>
-            <div className="flex items-start gap-4">
-              <Phone className="h-6 w-6 text-secondary flex-shrink-0 mt-1" />
-              <div>
-                <div className="text-white/60 text-sm font-medium">Call Us</div>
-                <a href="tel:+1234567890" className="text-white font-semibold hover:text-secondary transition-colors duration-300">(123) 456-7890</a>
+            <div className="flex items-start gap-3">
+              <Phone className="h-5 md:h-6 w-5 md:w-6 text-secondary flex-shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <div className="text-white/60 text-xs md:text-sm font-medium">Call Us</div>
+                <a href="tel:+1234567890" className="text-white font-semibold hover:text-secondary transition-colors duration-300 text-xs md:text-base">(123) 456-7890</a>
               </div>
             </div>
-            <div className="flex items-start gap-4">
-              <MapPin className="h-6 w-6 text-accent flex-shrink-0 mt-1" />
-              <div>
-                <div className="text-white/60 text-sm font-medium">Visit Us</div>
-                <p className="text-white font-semibold">123 Tax Street, Suite 100<br/>Your City, ST 12345</p>
+            <div className="flex items-start gap-3">
+              <MapPin className="h-5 md:h-6 w-5 md:w-6 text-accent flex-shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <div className="text-white/60 text-xs md:text-sm font-medium">Visit Us</div>
+                <p className="text-white font-semibold text-xs md:text-base leading-tight">123 Tax Street<br/>Suite 100, Your City</p>
               </div>
             </div>
           </div>

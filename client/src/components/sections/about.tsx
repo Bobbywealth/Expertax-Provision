@@ -1,53 +1,100 @@
-import { Shield, DollarSign, Clock, CheckCircle } from "lucide-react";
+import { Shield, DollarSign, Clock, CheckCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function About() {
   return (
-    <section className="py-24 bg-white" data-testid="about-section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 relative overflow-hidden" data-testid="about-section">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-background/50"></div>
+      
+      {/* Decorative Elements */}
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-primary/10 backdrop-blur-sm rounded-full px-4 py-2 mb-8 border border-primary/20">
-            <CheckCircle className="h-4 w-4 mr-2 text-primary" />
-            <span className="text-sm font-medium text-foreground">Trusted by 500+ Clients</span>
+          <div className="inline-block mb-4">
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Why Us</span>
           </div>
           
-          <h2 className="text-4xl lg:text-5xl font-black text-foreground mb-6 tracking-tight" data-testid="text-about-title">
+          <h2 className="text-5xl lg:text-6xl font-black text-foreground mb-6 tracking-tight" data-testid="text-about-title">
             Why Choose Provision ExperTax?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-about-description">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed" data-testid="text-about-description">
             With years of experience and a commitment to excellence, we provide comprehensive tax solutions that put your financial success first.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="p-8 border-2 border-primary/10 rounded-2xl hover:border-primary/40 transition-all duration-300 hover:shadow-lg group" data-testid="card-expert-professionals">
-            <div className="w-16 h-16 bg-primary/10 group-hover:bg-primary group-hover:text-white rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
-              <Shield className="h-8 w-8 text-primary group-hover:text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-3 text-foreground" data-testid="text-experts-title">Expert Professionals</h3>
-            <p className="text-muted-foreground leading-relaxed" data-testid="text-experts-description">
-              Certified tax professionals with extensive knowledge of current tax laws and regulations.
-            </p>
-          </div>
-          
-          <div className="p-8 border-2 border-secondary/10 rounded-2xl hover:border-secondary/40 transition-all duration-300 hover:shadow-lg group" data-testid="card-maximum-returns">
-            <div className="w-16 h-16 bg-secondary/10 group-hover:bg-secondary group-hover:text-white rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
-              <DollarSign className="h-8 w-8 text-secondary group-hover:text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-3 text-foreground" data-testid="text-returns-title">Maximum Returns</h3>
-            <p className="text-muted-foreground leading-relaxed" data-testid="text-returns-description">
-              We identify every deduction and credit to ensure you get the maximum refund possible.
-            </p>
-          </div>
-          
-          <div className="p-8 border-2 border-accent/10 rounded-2xl hover:border-accent/40 transition-all duration-300 hover:shadow-lg group" data-testid="card-year-round-support">
-            <div className="w-16 h-16 bg-accent/10 group-hover:bg-accent group-hover:text-white rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
-              <Clock className="h-8 w-8 text-accent group-hover:text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-3 text-foreground" data-testid="text-support-title">Year-Round Support</h3>
-            <p className="text-muted-foreground leading-relaxed" data-testid="text-support-description">
-              Ongoing tax planning and support throughout the year, not just during tax season.
-            </p>
-          </div>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {[
+            {
+              icon: Shield,
+              title: "Expert Professionals",
+              description: "Certified tax professionals with extensive knowledge of current tax laws and regulations.",
+              testId: "card-expert-professionals",
+              titleId: "text-experts-title",
+              descId: "text-experts-description"
+            },
+            {
+              icon: DollarSign,
+              title: "Maximum Returns",
+              description: "We identify every deduction and credit to ensure you get the maximum refund possible.",
+              testId: "card-maximum-returns",
+              titleId: "text-returns-title",
+              descId: "text-returns-description"
+            },
+            {
+              icon: Clock,
+              title: "Year-Round Support",
+              description: "Ongoing tax planning and support throughout the year, not just during tax season.",
+              testId: "card-year-round-support",
+              titleId: "text-support-title",
+              descId: "text-support-description"
+            }
+          ].map((item, index) => {
+            const IconComponent = item.icon;
+            const colors = ["from-primary", "from-secondary", "from-accent"];
+            return (
+              <div key={index} className="group relative" data-testid={item.testId}>
+                {/* Premium Gradient Border */}
+                <div className={`absolute -inset-0.5 bg-gradient-to-br from-${colors[index]}/40 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur`}></div>
+                
+                {/* Card */}
+                <div className="relative bg-white border-2 border-border/50 rounded-2xl p-10 backdrop-blur-sm hover:border-primary/40 transition-all duration-500 hover:shadow-2xl h-full flex flex-col">
+                  {/* Icon */}
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl ${index === 0 ? 'bg-primary/15 text-primary' : index === 1 ? 'bg-secondary/15 text-secondary' : 'bg-accent/15 text-accent'}`}>
+                    <IconComponent className="h-10 w-10" />
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-200 tracking-tight" data-testid={item.titleId}>
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed flex-grow text-lg" data-testid={item.descId}>
+                    {item.description}
+                  </p>
+                  
+                  <div className="mt-6 pt-6 border-t-2 border-border/30">
+                    <div className="inline-flex items-center text-primary font-bold text-sm uppercase tracking-widest group-hover:gap-3 transition-all duration-300 gap-2">
+                      Learn More
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
+        {/* Bottom CTA */}
+        <div className="text-center pt-8 border-t-2 border-border/30">
+          <p className="text-muted-foreground mb-6 text-lg">Ready to experience the Provision ExperTax difference?</p>
+          <Link href="/contact">
+            <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-10 py-5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 group shadow-lg">
+              Schedule Your Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

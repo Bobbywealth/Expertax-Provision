@@ -82,13 +82,13 @@ export default function Services() {
     <div className="min-h-screen bg-background" data-testid="page-services">
       <Navbar />
       
-      <section className="py-20 bg-background">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4" data-testid="text-services-title">
-              Our Tax Services
+          <div className="text-center mb-20">
+            <h1 className="text-4xl lg:text-5xl font-black text-foreground mb-6 tracking-tight" data-testid="text-services-title">
+              Complete Tax Solutions
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-services-description">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-services-description">
               Comprehensive tax solutions for individuals, families, and businesses of all sizes.
             </p>
           </div>
@@ -99,22 +99,23 @@ export default function Services() {
               return (
                 <div 
                   key={index}
-                  className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow duration-200"
+                  className="bg-white border-2 border-foreground/5 rounded-2xl p-8 hover:border-foreground/15 hover:shadow-xl transition-all duration-300 group"
                   data-testid={`card-service-${index}`}
                 >
-                  <div className={`w-12 h-12 bg-${service.color}/10 rounded-lg flex items-center justify-center mb-4`}>
-                    <IconComponent className={`h-6 w-6 text-${service.color}`} />
+                  <div className="w-14 h-14 bg-primary/10 group-hover:bg-primary group-hover:text-white rounded-xl flex items-center justify-center mb-6 transition-all duration-300">
+                    <IconComponent className="h-7 w-7 text-primary group-hover:text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3" data-testid={`text-service-title-${index}`}>
+                  <h3 className="text-2xl font-bold mb-3 text-foreground" data-testid={`text-service-title-${index}`}>
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4" data-testid={`text-service-description-${index}`}>
+                  <p className="text-muted-foreground mb-6 leading-relaxed" data-testid={`text-service-description-${index}`}>
                     {service.description}
                   </p>
-                  <ul className="text-sm text-muted-foreground space-y-1">
+                  <ul className="text-sm text-muted-foreground space-y-2">
                     {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} data-testid={`text-feature-${index}-${featureIndex}`}>
-                        • {feature}
+                      <li key={featureIndex} data-testid={`text-feature-${index}-${featureIndex}`} className="flex items-start">
+                        <span className="text-primary font-bold mr-3">✓</span>
+                        <span>{feature}</span>
                       </li>
                     ))}
                   </ul>

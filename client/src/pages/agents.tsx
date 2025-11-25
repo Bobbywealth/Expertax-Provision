@@ -10,18 +10,19 @@ export default function Agents() {
     <div className="min-h-screen bg-background" data-testid="page-agents">
       <Navbar />
       
-      <section className="py-20 bg-background">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4" data-testid="text-agents-title">
+          <div className="text-center mb-20">
+            <h1 className="text-4xl lg:text-5xl font-black text-foreground mb-6 tracking-tight" data-testid="text-agents-title">
               Meet Our Expert Team
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-agents-description">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-agents-description">
               Our certified tax professionals bring years of experience and dedication to your financial success.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex justify-center">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
               {agents.map((agent, index) => (
                 <div 
                   key={agent.id}
@@ -64,6 +65,7 @@ export default function Agents() {
                   </div>
                 </div>
               ))}
+            </div>
             </div>
         </div>
       </section>

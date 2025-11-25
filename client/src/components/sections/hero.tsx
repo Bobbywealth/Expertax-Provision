@@ -15,10 +15,10 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 bg-gradient-to-r from-white to-white/80 bg-clip-text" data-testid="text-hero-title">
-              Expert Tax Solutions for Your{" "}
-              <span className="text-transparent bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text">
-                Success
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black leading-tight mb-8 tracking-tight text-white" data-testid="text-hero-title">
+              Your Taxes,<br />
+              <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                Simplified.
               </span>
             </h1>
 

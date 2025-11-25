@@ -19,55 +19,56 @@ export default function Testimonials() {
   });
 
   return (
-    <section className="py-20 bg-muted" data-testid="testimonials-section">
+    <section className="py-24 bg-foreground/5" data-testid="testimonials-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4" data-testid="text-testimonials-title">
-            What Our Clients Say
+        <div className="text-center mb-20">
+          <h2 className="text-4xl lg:text-5xl font-black text-foreground mb-6 tracking-tight" data-testid="text-testimonials-title">
+            Trusted by Real Clients
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="text-testimonials-description">
-            Don't just take our word for it. Here's what our satisfied clients have to say about our services.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-testimonials-description">
+            See what our clients have to say about their experience with Provision ExperTax
           </p>
         </div>
         
         {testimonials.length > 0 ? (
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-max">
             {testimonials.map((testimonial, index) => (
               <div 
                 key={testimonial.id}
-                className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 group"
+                className="bg-white border border-border rounded-2xl p-8 hover:shadow-xl transition-all duration-300 group flex flex-col"
+                style={{ height: index % 2 === 0 ? 'auto' : 'auto' }}
                 data-testid={`card-testimonial-${testimonial.id}`}
               >
-                <div className="flex items-center mb-4">
-                  <Quote className="h-8 w-8 text-primary/20 group-hover:text-primary/40 transition-colors duration-300" />
+                <div className="mb-4">
+                  <Quote className="h-12 w-12 text-primary/10 group-hover:text-primary/20 transition-colors duration-300" />
                 </div>
                 
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-4 gap-1">
                   {[...Array(testimonial.rating)].map((_, starIndex) => (
                     <Star 
                       key={starIndex} 
-                      className="h-4 w-4 text-yellow-400 fill-current" 
+                      className="h-5 w-5 text-yellow-400 fill-current" 
                       data-testid={`star-${testimonial.id}-${starIndex}`}
                     />
                   ))}
                 </div>
                 
-                <p className="text-muted-foreground mb-6 italic" data-testid={`text-testimonial-content-${testimonial.id}`}>
+                <p className="text-foreground mb-6 font-medium leading-relaxed flex-grow" data-testid={`text-testimonial-content-${testimonial.id}`}>
                   "{testimonial.testimonialText}"
                 </p>
                 
-                <div className="flex items-center">
+                <div className="flex items-center pt-4 border-t border-border">
                   <img 
                     src={defaultAvatars[index % defaultAvatars.length]} 
                     alt={testimonial.clientName}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
+                    className="w-14 h-14 rounded-full object-cover mr-4"
                     data-testid={`img-testimonial-${testimonial.id}`}
                   />
                   <div>
-                    <div className="font-semibold text-foreground" data-testid={`text-testimonial-name-${testimonial.id}`}>
+                    <div className="font-bold text-foreground text-sm" data-testid={`text-testimonial-name-${testimonial.id}`}>
                       {testimonial.clientName}
                     </div>
-                    <div className="text-sm text-muted-foreground" data-testid={`text-testimonial-service-${testimonial.id}`}>
+                    <div className="text-xs text-primary font-medium" data-testid={`text-testimonial-service-${testimonial.id}`}>
                       {testimonial.service || "Tax Services"}
                     </div>
                   </div>

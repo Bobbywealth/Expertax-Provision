@@ -19,15 +19,6 @@ export const agents: Agent[] = [
     credentials: ["CPA", "Individual Tax Prep", "Family Tax Planning"]
   },
   {
-    id: "ai-tax-agent-001",
-    name: "AI Tax Agent",
-    title: "Automated Tax Assistant",
-    bio: "Our cutting-edge AI technology provides 24/7 tax assistance, instant calculations, and preliminary tax guidance. Perfect for quick questions and initial tax planning support.",
-    email: "ai@provisionexpertax.com",
-    imageUrl: "https://iili.io/KEhUXcu.png",
-    credentials: ["AI Technology", "24/7 Support", "Tax Calculations", "Quick Assistance"]
-  },
-  {
     id: "jennifer-001",
     name: "Jennifer Constantino",
     title: "Senior Tax Consultant",

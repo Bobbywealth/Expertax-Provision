@@ -4,16 +4,11 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="hero-gradient text-white py-8 lg:py-32 relative overflow-hidden" data-testid="hero-section">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/3 rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section className="bg-white py-0 relative overflow-hidden" data-testid="hero-section">
+      <div className="grid lg:grid-cols-2 gap-0 items-stretch min-h-screen lg:min-h-auto">
+        {/* Left side - Text */}
+        <div className="hero-gradient text-white py-12 lg:py-32 flex items-center relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
           <div className="text-center lg:text-left">
             <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black leading-tight mb-8 tracking-tight text-white" data-testid="text-hero-title">
               Your Taxes,<br />

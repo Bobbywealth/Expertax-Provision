@@ -142,8 +142,8 @@ export default function Appointments() {
                   <h4 className="font-semibold">Address</h4>
                   <div className="text-sm text-muted-foreground space-y-1">
                     <p>Provision ExperTax Services</p>
-                    <p>1234 Business Blvd, Suite 100</p>
-                    <p>Professional Plaza, CA 90210</p>
+                    <p>6250 W Oakland Park Blvd, Suite 9</p>
+                    <p>Sunrise, FL 33313</p>
                   </div>
                 </div>
 
@@ -152,11 +152,18 @@ export default function Appointments() {
                   <div className="text-sm text-muted-foreground space-y-1">
                     <div className="flex items-center">
                       <Phone className="h-4 w-4 mr-2" />
-                      <span>(555) 123-4567</span>
+                      <a href="tel:+17863522038" className="hover:text-primary transition-colors">
+                        786-352-2038
+                      </a>
                     </div>
                     <div className="flex items-center">
                       <Mail className="h-4 w-4 mr-2" />
-                      <span>info@provisionexpertax.com</span>
+                      <a
+                        href="mailto:Isaacalexandra.ststaxrepair@gmail.com"
+                        className="hover:text-primary transition-colors"
+                      >
+                        Isaacalexandra.ststaxrepair@gmail.com
+                      </a>
                     </div>
                   </div>
                 </div>

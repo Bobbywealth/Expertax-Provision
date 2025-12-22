@@ -44,7 +44,13 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="font-bold text-base md:text-lg text-foreground mb-1" data-testid="text-phone-label">Phone</p>
-                        <p className="text-muted-foreground text-sm md:text-lg font-semibold" data-testid="text-phone-number">(555) 123-4567</p>
+                        <a
+                          href="tel:+17863522038"
+                          className="text-muted-foreground text-sm md:text-lg font-semibold hover:text-primary transition-colors"
+                          data-testid="text-phone-number"
+                        >
+                          786-352-2038
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -58,7 +64,13 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="font-bold text-base md:text-lg text-foreground mb-1" data-testid="text-email-label">Email</p>
-                        <p className="text-muted-foreground text-xs sm:text-sm md:text-lg font-semibold truncate" data-testid="text-email-address">info@provisionexpertax.com</p>
+                        <a
+                          href="mailto:Isaacalexandra.ststaxrepair@gmail.com"
+                          className="text-muted-foreground text-xs sm:text-sm md:text-lg font-semibold truncate hover:text-secondary transition-colors block"
+                          data-testid="text-email-address"
+                        >
+                          Isaacalexandra.ststaxrepair@gmail.com
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -73,9 +85,9 @@ export default function Contact() {
                       <div>
                         <p className="font-bold text-base md:text-lg text-foreground mb-1" data-testid="text-office-label">Office</p>
                         <p className="text-muted-foreground text-xs sm:text-sm md:text-lg font-semibold leading-tight" data-testid="text-office-address">
-                          123 Main Street<br />
-                          Suite 200<br />
-                          Your City, ST 12345
+                          6250 W Oakland Park Blvd<br />
+                          Suite 9<br />
+                          Sunrise, FL 33313
                         </p>
                       </div>
                     </div>

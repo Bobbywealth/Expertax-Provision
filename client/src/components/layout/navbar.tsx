@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 export default function Navbar() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const loginUrl = "https://ststaxrepair.org/client-login?_office=provisionexpertax";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -50,6 +51,16 @@ export default function Navbar() {
                 Book Appointment
               </Button>
             </Link>
+            <a
+              href={loginUrl}
+              target="_blank"
+              rel="noreferrer"
+              data-testid="link-login"
+            >
+              <Button variant="secondary" className="shadow-md">
+                Login
+              </Button>
+            </a>
             <Link href="/contact" data-testid="link-contact">
               <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                 Contact Us
@@ -87,6 +98,18 @@ export default function Navbar() {
                 </Button>
               </div>
             </Link>
+            <a
+              href={loginUrl}
+              target="_blank"
+              rel="noreferrer"
+              data-testid="mobile-link-login"
+            >
+              <div className="block py-2">
+                <Button variant="secondary" className="w-full">
+                  Login
+                </Button>
+              </div>
+            </a>
             <Link href="/contact" data-testid="mobile-link-contact">
               <div className="block py-2 text-foreground hover:text-primary transition-colors duration-200">
                 Contact Us

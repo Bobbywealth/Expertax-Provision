@@ -87,21 +87,21 @@ export default function Footer() {
               <Mail className="h-5 md:h-6 w-5 md:w-6 text-primary flex-shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <div className="text-white/60 text-xs md:text-sm font-medium">Email Us</div>
-                <a href="mailto:info@experttax.com" className="text-white font-semibold hover:text-primary transition-colors duration-300 text-xs md:text-base truncate block">info@experttax.com</a>
+                <a href="mailto:Isaacalexandra.ststaxrepair@gmail.com" className="text-white font-semibold hover:text-primary transition-colors duration-300 text-xs md:text-base truncate block">Isaacalexandra.ststaxrepair@gmail.com</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Phone className="h-5 md:h-6 w-5 md:w-6 text-secondary flex-shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <div className="text-white/60 text-xs md:text-sm font-medium">Call Us</div>
-                <a href="tel:+1234567890" className="text-white font-semibold hover:text-secondary transition-colors duration-300 text-xs md:text-base">(123) 456-7890</a>
+                <a href="tel:+17863522038" className="text-white font-semibold hover:text-secondary transition-colors duration-300 text-xs md:text-base">786-352-2038</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <MapPin className="h-5 md:h-6 w-5 md:w-6 text-accent flex-shrink-0 mt-0.5" />
               <div className="min-w-0">
                 <div className="text-white/60 text-xs md:text-sm font-medium">Visit Us</div>
-                <p className="text-white font-semibold text-xs md:text-base leading-tight">123 Tax Street<br/>Suite 100, Your City</p>
+                <p className="text-white font-semibold text-xs md:text-base leading-tight">6250 W Oakland Park Blvd<br/>Suite 9, Sunrise, FL 33313</p>
               </div>
             </div>
           </div>

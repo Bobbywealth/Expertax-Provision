@@ -17,7 +17,7 @@ export const agents: Agent[] = [
     bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and navigate complex tax situations with ease.",
     email: "Isaacalexandra.ststaxrepair@gmail.com",
     phone: "786-352-2038",
-    imageUrl: "https://iili.io/KG5hSj4.png",
+    imageUrl: "https://iili.io/f1vE9Qp.jpg",
     credentials: ["Master EFIN", "Individual Tax Prep", "Family Tax Planning"]
   },
   {
@@ -27,7 +27,7 @@ export const agents: Agent[] = [
     bio: "Dedicated tax professional based in Hollywood, FL, providing comprehensive tax preparation and consultation services. Committed to delivering personalized solutions for individuals and businesses throughout South Florida.",
     email: "jennconstantino93@gmail.com",
     phone: "(954) 629-6424",
-    imageUrl: "https://iili.io/KG5vRR9.png",
+    imageUrl: "https://iili.io/f1vNNN1.jpg",
     credentials: ["Master EFIN", "Tax Preparation", "Business Consulting"]
   }
 ];

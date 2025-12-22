@@ -8,7 +8,7 @@ export default function Hero() {
   const heroImageFallback = "https://iili.io/Kw9hibf.png";
 
   return (
-    <section className="hero-gradient text-white py-16 md:py-32 lg:py-40 relative overflow-hidden min-h-[120vh] md:min-h-screen" data-testid="hero-section">
+    <section className="hero-gradient text-white py-16 md:py-32 lg:py-40 relative overflow-hidden md:min-h-screen" data-testid="hero-section">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse hidden md:block"></div>

@@ -110,14 +110,14 @@ export default function Testimonials() {
         )}
         
         {testimonials.length > 0 && (
-          <div className="text-center pt-8 border-t border-border/50">
-            <Link href="/testimonials/submit">
-              <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-8 py-4 rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 group" data-testid="button-submit-testimonial">
-                <MessageSquare className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
-                Share Your Experience
-              </Button>
-            </Link>
-          </div>
+        <div className="text-center pt-8 border-t border-border/50">
+          <Link href="/testimonials/submit">
+            <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-8 py-4 rounded-xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 group" data-testid="button-submit-testimonial">
+              <MessageSquare className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
+              Share Your Experience
+            </Button>
+          </Link>
+        </div>
         )}
       </div>
     </section>

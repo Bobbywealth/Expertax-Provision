@@ -1,39 +1,19 @@
-import {
-  type Contact,
-  type InsertContact,
-  type Agent,
-  type InsertAgent,
-  type Appointment,
-  type InsertAppointment,
-  type Document,
-  type InsertDocument,
-  type BlogPost,
-  type InsertBlogPost,
-  type Testimonial,
-  type InsertTestimonial,
-  type User,
-  type InsertUser,
-  contacts,
-  agents,
-  appointments,
-  documents,
-  blogPosts,
-  testimonials,
-  users,
+import { 
+  type Contact, type InsertContact, 
+  type Agent, type InsertAgent,
+  type Appointment, type InsertAppointment,
+  type Document, type InsertDocument,
+  type BlogPost, type InsertBlogPost,
+  type Testimonial, type InsertTestimonial,
+  type User, type InsertUser,
+  contacts, agents, appointments, documents, blogPosts, testimonials, users
 } from "@shared/schema";
+import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 import { randomUUID } from "crypto";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
-import createMemoryStore from "memorystore";
-
-// Only import and initialize the database when DATABASE_URL is present.
-// This allows local preview/dev to run without provisioning Postgres.
-let db: any | undefined;
-if (process.env.DATABASE_URL) {
-  const mod = await import("./db");
-  db = mod.db;
-}
+import MemoryStore from "memorystore";
 
 export interface IStorage {
   // User methods for email/password auth
@@ -84,9 +64,6 @@ export class DatabaseStorage implements IStorage {
     if (!process.env.DATABASE_URL) {
       throw new Error("DATABASE_URL must be set to use DatabaseStorage");
     }
-    if (!db) {
-      throw new Error("Database client was not initialized");
-    }
     // Setup session store for PostgreSQL
     const PostgresSessionStore = connectPg(session);
     
@@ -101,12 +78,12 @@ export class DatabaseStorage implements IStorage {
 
   // User methods for email/password auth
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const [user] = await db!.select().from(users).where(eq(users.id, id));
     return user;
   }
 
   async createUser(userData: InsertUser): Promise<User> {
-    const [user] = await db
+    const [user] = await db!
       .insert(users)
       .values(userData)
       .returning();
@@ -114,18 +91,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
+    const [user] = await db!.select().from(users).where(eq(users.username, username));
     return user;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
+    const [user] = await db!.select().from(users).where(eq(users.email, email));
     return user;
   }
 
   private async seedAgents() {
     // Direct database check to prevent recursion
-    const existingAgents = await db.select().from(agents);
+    const existingAgents = await db!.select().from(agents);
     if (existingAgents.length > 0) return; // Already seeded
 
     const sampleAgents: InsertAgent[] = [
@@ -142,7 +119,7 @@ export class DatabaseStorage implements IStorage {
         title: "Automated Tax Assistant",
         bio: "Our cutting-edge AI technology provides instant calculations, preliminary tax guidance, and 24/7 support. Perfect for quick questions and simple tax scenarios.",
         email: "ai@provisionexpertax.com",
-        imageUrl: "https://i.ibb.co/N7gZd3Z/ai-tax-agent-professional.png",
+        imageUrl: "https://iili.io/N7gZd3Z/ai-tax-agent-professional.png",
         credentials: ["AI Technology", "24/7 Support", "+2 more"]
       },
       {
@@ -162,7 +139,7 @@ export class DatabaseStorage implements IStorage {
 
   // Contact methods
   async createContact(insertContact: InsertContact): Promise<Contact> {
-    const [contact] = await db
+    const [contact] = await db!
       .insert(contacts)
       .values(insertContact)
       .returning();
@@ -170,12 +147,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getContacts(): Promise<Contact[]> {
-    return await db.select().from(contacts).orderBy(desc(contacts.createdAt));
+    return await db!.select().from(contacts).orderBy(desc(contacts.createdAt));
   }
 
   // Agent methods
   async getAgents(): Promise<Agent[]> {
-    const allAgents = await db.select().from(agents);
+    const allAgents = await db!.select().from(agents);
     
     // Custom ordering: Alexandra Isaac, AI Tax Agent, Jennifer Constantino
     const order = ['Alexandra Isaac', 'AI Tax Agent', 'Jennifer Constantino'];
@@ -202,7 +179,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAgent(insertAgent: InsertAgent): Promise<Agent> {
-    const [agent] = await db
+    const [agent] = await db!
       .insert(agents)
       .values(insertAgent)
       .returning();
@@ -211,7 +188,7 @@ export class DatabaseStorage implements IStorage {
 
   // Appointment methods
   async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
-    const [appointment] = await db
+    const [appointment] = await db!
       .insert(appointments)
       .values(insertAppointment)
       .returning();
@@ -219,11 +196,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAppointments(): Promise<Appointment[]> {
-    return await db.select().from(appointments).orderBy(desc(appointments.createdAt));
+    return await db!.select().from(appointments).orderBy(desc(appointments.createdAt));
   }
 
   async getAppointmentsByAgent(agentId: string): Promise<Appointment[]> {
-    return await db
+    return await db!
       .select()
       .from(appointments)
       .where(eq(appointments.agentId, agentId))
@@ -231,7 +208,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateAppointmentStatus(id: string, status: string): Promise<Appointment> {
-    const [appointment] = await db
+    const [appointment] = await db!
       .update(appointments)
       .set({ status })
       .where(eq(appointments.id, id))
@@ -241,7 +218,7 @@ export class DatabaseStorage implements IStorage {
 
   // Document methods
   async createDocument(insertDocument: InsertDocument): Promise<Document> {
-    const [document] = await db
+    const [document] = await db!
       .insert(documents)
       .values(insertDocument)
       .returning();
@@ -249,7 +226,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getDocumentsByClient(clientEmail: string): Promise<Document[]> {
-    return await db
+    return await db!
       .select()
       .from(documents)
       .where(eq(documents.clientEmail, clientEmail))
@@ -257,7 +234,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateDocumentStatus(id: string, status: string): Promise<Document> {
-    const [document] = await db
+    const [document] = await db!
       .update(documents)
       .set({ status })
       .where(eq(documents.id, id))
@@ -267,7 +244,7 @@ export class DatabaseStorage implements IStorage {
 
   // Blog methods
   async createBlogPost(insertBlogPost: InsertBlogPost): Promise<BlogPost> {
-    const [blogPost] = await db
+    const [blogPost] = await db!
       .insert(blogPosts)
       .values(insertBlogPost)
       .returning();
@@ -276,20 +253,20 @@ export class DatabaseStorage implements IStorage {
 
   async getBlogPosts(published?: boolean): Promise<BlogPost[]> {
     if (published !== undefined) {
-      return await db
+      return await db!
         .select()
         .from(blogPosts)
         .where(eq(blogPosts.published, published))
         .orderBy(desc(blogPosts.createdAt));
     }
-    return await db
+    return await db!
       .select()
       .from(blogPosts)
       .orderBy(desc(blogPosts.createdAt));
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    const [blogPost] = await db
+    const [blogPost] = await db!
       .select()
       .from(blogPosts)
       .where(eq(blogPosts.slug, slug));
@@ -297,7 +274,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateBlogPost(id: string, updates: Partial<InsertBlogPost>): Promise<BlogPost> {
-    const [blogPost] = await db
+    const [blogPost] = await db!
       .update(blogPosts)
       .set({ ...updates, updatedAt: new Date() })
       .where(eq(blogPosts.id, id))
@@ -306,7 +283,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async publishBlogPost(id: string): Promise<BlogPost> {
-    const [blogPost] = await db
+    const [blogPost] = await db!
       .update(blogPosts)
       .set({ published: true, publishedAt: new Date() })
       .where(eq(blogPosts.id, id))
@@ -316,7 +293,7 @@ export class DatabaseStorage implements IStorage {
 
   // Testimonial methods
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
-    const [testimonial] = await db
+    const [testimonial] = await db!
       .insert(testimonials)
       .values(insertTestimonial)
       .returning();
@@ -325,20 +302,20 @@ export class DatabaseStorage implements IStorage {
 
   async getTestimonials(approved?: boolean): Promise<Testimonial[]> {
     if (approved !== undefined) {
-      return await db
+      return await db!
         .select()
         .from(testimonials)
         .where(eq(testimonials.approved, approved))
         .orderBy(desc(testimonials.createdAt));
     }
-    return await db
+    return await db!
       .select()
       .from(testimonials)
       .orderBy(desc(testimonials.createdAt));
   }
 
   async approveTestimonial(id: string): Promise<Testimonial> {
-    const [testimonial] = await db
+    const [testimonial] = await db!
       .update(testimonials)
       .set({ approved: true })
       .where(eq(testimonials.id, id))
@@ -347,7 +324,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async featureTestimonial(id: string, featured: boolean): Promise<Testimonial> {
-    const [testimonial] = await db
+    const [testimonial] = await db!
       .update(testimonials)
       .set({ featured })
       .where(eq(testimonials.id, id))
@@ -356,118 +333,67 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-class MemoryStorage implements IStorage {
+export class InMemoryStorage implements IStorage {
+  private users: User[] = [];
+  private contacts: Contact[] = [];
+  private agents: Agent[] = [];
+  private appointments: Appointment[] = [];
+  private documents: Document[] = [];
+  private blogPosts: BlogPost[] = [];
+  private testimonials: Testimonial[] = [];
   sessionStore: any;
 
-  private contactsData: Contact[] = [];
-  private agentsData: Agent[] = [];
-  private appointmentsData: Appointment[] = [];
-  private documentsData: Document[] = [];
-  private blogPostsData: BlogPost[] = [];
-  private testimonialsData: Testimonial[] = [];
-  private usersData: User[] = [];
-
   constructor() {
-    const MemoryStore = createMemoryStore(session);
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 24 * 60 * 60 * 1000, // prune expired entries daily
+    const SessionStore = MemoryStore(session);
+    this.sessionStore = new SessionStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
     });
   }
 
-  async initializeData(): Promise<void> {
-    await this.seedAgents();
-  }
-
-  // User methods
   async getUser(id: string): Promise<User | undefined> {
-    return this.usersData.find((u) => u.id === id);
+    return this.users.find((u) => u.id === id);
   }
 
-  async createUser(userData: InsertUser): Promise<User> {
-    const now = new Date();
-    const user: User = {
-      id: randomUUID(),
-      username: userData.username,
-      email: userData.email,
-      password: userData.password,
-      firstName: userData.firstName ?? null,
-      lastName: userData.lastName ?? null,
-      role: "admin",
-      createdAt: now,
-      updatedAt: now,
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const user: User = { 
+      ...insertUser, 
+      id: randomUUID(), 
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      role: insertUser.role || "client"
     };
-    this.usersData.push(user);
+    this.users.push(user);
     return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return this.usersData.find((u) => u.username === username);
+    return this.users.find((u) => u.username === username);
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return this.usersData.find((u) => u.email === email);
+    return this.users.find((u) => u.email === email);
   }
 
-  // Contact methods
   async createContact(insertContact: InsertContact): Promise<Contact> {
-    const contact: Contact = {
-      id: randomUUID(),
-      firstName: insertContact.firstName,
-      lastName: insertContact.lastName,
-      email: insertContact.email,
-      phone: insertContact.phone ?? null,
-      service: insertContact.service ?? null,
-      message: insertContact.message ?? null,
+    const contact: Contact = { 
+      ...insertContact, 
+      id: randomUUID(), 
       createdAt: new Date(),
+      phone: insertContact.phone || null,
+      service: insertContact.service || null,
+      message: insertContact.message || null
     };
-    this.contactsData.push(contact);
+    this.contacts.push(contact);
     return contact;
   }
 
   async getContacts(): Promise<Contact[]> {
-    return [...this.contactsData].sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-    );
-  }
-
-  // Agent methods
-  private async seedAgents() {
-    if (this.agentsData.length > 0) return;
-    const sampleAgents: InsertAgent[] = [
-      {
-        name: "Alexandra Isaac",
-        title: "Tax Preparation Specialist, CPA",
-        bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and achieve financial peace of mind.",
-        email: "Isaacalexandra.ststaxrepair@gmail.com",
-        imageUrl: "https://iili.io/f1vE9Qp.jpg",
-        credentials: ["CPA", "Individual Tax Prep", "+1 more"],
-      },
-      {
-        name: "AI Tax Agent",
-        title: "Automated Tax Assistant",
-        bio: "Our cutting-edge AI technology provides instant calculations, preliminary tax guidance, and 24/7 support. Perfect for quick questions and simple tax scenarios.",
-        email: "ai@provisionexpertax.com",
-        imageUrl: "https://i.ibb.co/N7gZd3Z/ai-tax-agent-professional.png",
-        credentials: ["AI Technology", "24/7 Support", "+2 more"],
-      },
-      {
-        name: "Jennifer Constantino",
-        title: "Senior Tax Consultant",
-        bio: "Dedicated tax professional based in Hollywood, FL, providing comprehensive tax preparation and consultation services. Committed to delivering personalized financial guidance.",
-        email: "jennconstantino93@gmail.com",
-        imageUrl: "https://iili.io/f1vNNN1.jpg",
-        credentials: ["Tax Preparation", "Business Consulting", "+1 more"],
-      },
-    ];
-
-    for (const agent of sampleAgents) {
-      await this.createAgent(agent);
-    }
+    return this.contacts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async getAgents(): Promise<Agent[]> {
-    const order = ["Alexandra Isaac", "AI Tax Agent", "Jennifer Constantino"];
-    return [...this.agentsData].sort((a, b) => {
+    const order = ['Alexandra Isaac', 'AI Tax Agent', 'Jennifer Constantino'];
+    return [...this.agents].sort((a, b) => {
       const aIndex = order.indexOf(a.name);
       const bIndex = order.indexOf(b.name);
       if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
@@ -478,174 +404,171 @@ class MemoryStorage implements IStorage {
   }
 
   async createAgent(insertAgent: InsertAgent): Promise<Agent> {
-    const agent: Agent = {
-      id: randomUUID(),
-      name: insertAgent.name,
-      title: insertAgent.title,
-      bio: insertAgent.bio,
-      email: insertAgent.email,
-      imageUrl: insertAgent.imageUrl,
-      credentials: insertAgent.credentials,
-    };
-    this.agentsData.push(agent);
+    const agent: Agent = { ...insertAgent, id: randomUUID() };
+    this.agents.push(agent);
     return agent;
   }
 
-  // Appointment methods
   async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
-    const appointment: Appointment = {
-      id: randomUUID(),
-      clientName: insertAppointment.clientName,
-      clientEmail: insertAppointment.clientEmail,
-      clientPhone: insertAppointment.clientPhone ?? null,
-      service: insertAppointment.service,
-      agentId: insertAppointment.agentId ?? null,
-      appointmentDate: insertAppointment.appointmentDate,
-      duration: insertAppointment.duration ?? 60,
-      status: insertAppointment.status ?? "pending",
-      notes: insertAppointment.notes ?? null,
+    const appointment: Appointment = { 
+      ...insertAppointment, 
+      id: randomUUID(), 
       createdAt: new Date(),
+      status: insertAppointment.status || "pending",
+      agentId: insertAppointment.agentId || null,
+      clientPhone: insertAppointment.clientPhone || null,
+      duration: insertAppointment.duration || 60,
+      notes: insertAppointment.notes || null
     };
-    this.appointmentsData.push(appointment);
+    this.appointments.push(appointment);
     return appointment;
   }
 
   async getAppointments(): Promise<Appointment[]> {
-    return [...this.appointmentsData].sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-    );
+    return this.appointments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async getAppointmentsByAgent(agentId: string): Promise<Appointment[]> {
-    return this.appointmentsData
+    return this.appointments
       .filter((a) => a.agentId === agentId)
       .sort((a, b) => b.appointmentDate.getTime() - a.appointmentDate.getTime());
   }
 
   async updateAppointmentStatus(id: string, status: string): Promise<Appointment> {
-    const appt = this.appointmentsData.find((a) => a.id === id);
-    if (!appt) throw new Error("Appointment not found");
-    appt.status = status as any;
-    return appt;
+    const index = this.appointments.findIndex((a) => a.id === id);
+    if (index === -1) throw new Error("Appointment not found");
+    this.appointments[index].status = status;
+    return this.appointments[index];
   }
 
-  // Document methods
   async createDocument(insertDocument: InsertDocument): Promise<Document> {
-    const document: Document = {
-      id: randomUUID(),
-      clientEmail: insertDocument.clientEmail,
-      fileName: insertDocument.fileName,
-      fileUrl: insertDocument.fileUrl,
-      fileSize: insertDocument.fileSize,
-      documentType: insertDocument.documentType,
-      status: insertDocument.status ?? "uploaded",
+    const document: Document = { 
+      ...insertDocument, 
+      id: randomUUID(), 
       uploadedAt: new Date(),
+      status: insertDocument.status || "uploaded"
     };
-    this.documentsData.push(document);
+    this.documents.push(document);
     return document;
   }
 
   async getDocumentsByClient(clientEmail: string): Promise<Document[]> {
-    return this.documentsData
+    return this.documents
       .filter((d) => d.clientEmail === clientEmail)
       .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
   }
 
   async updateDocumentStatus(id: string, status: string): Promise<Document> {
-    const doc = this.documentsData.find((d) => d.id === id);
-    if (!doc) throw new Error("Document not found");
-    doc.status = status;
-    return doc;
+    const index = this.documents.findIndex((d) => d.id === id);
+    if (index === -1) throw new Error("Document not found");
+    this.documents[index].status = status;
+    return this.documents[index];
   }
 
-  // Blog methods
   async createBlogPost(insertBlogPost: InsertBlogPost): Promise<BlogPost> {
-    const now = new Date();
-    const post: BlogPost = {
-      id: randomUUID(),
-      title: insertBlogPost.title,
-      slug: insertBlogPost.slug,
-      excerpt: insertBlogPost.excerpt,
-      content: insertBlogPost.content,
-      category: insertBlogPost.category,
-      authorId: insertBlogPost.authorId ?? null,
-      published: insertBlogPost.published ?? false,
-      publishedAt: insertBlogPost.publishedAt ?? null,
-      createdAt: now,
-      updatedAt: now,
+    const blogPost: BlogPost = { 
+      ...insertBlogPost, 
+      id: randomUUID(), 
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      published: insertBlogPost.published || false,
+      publishedAt: insertBlogPost.publishedAt || null
     };
-    this.blogPostsData.push(post);
-    return post;
+    this.blogPosts.push(blogPost);
+    return blogPost;
   }
 
   async getBlogPosts(published?: boolean): Promise<BlogPost[]> {
-    const posts =
-      published === undefined
-        ? this.blogPostsData
-        : this.blogPostsData.filter((p) => p.published === published);
-    return [...posts].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    let posts = this.blogPosts;
+    if (published !== undefined) {
+      posts = posts.filter((p) => p.published === published);
+    }
+    return posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    return this.blogPostsData.find((p) => p.slug === slug);
+    return this.blogPosts.find((p) => p.slug === slug);
   }
 
   async updateBlogPost(id: string, updates: Partial<InsertBlogPost>): Promise<BlogPost> {
-    const post = this.blogPostsData.find((p) => p.id === id);
-    if (!post) throw new Error("Blog post not found");
-    Object.assign(post, updates);
-    post.updatedAt = new Date();
-    return post;
+    const index = this.blogPosts.findIndex((p) => p.id === id);
+    if (index === -1) throw new Error("Blog post not found");
+    this.blogPosts[index] = { ...this.blogPosts[index], ...updates, updatedAt: new Date() };
+    return this.blogPosts[index];
   }
 
   async publishBlogPost(id: string): Promise<BlogPost> {
-    const post = this.blogPostsData.find((p) => p.id === id);
-    if (!post) throw new Error("Blog post not found");
-    post.published = true;
-    post.publishedAt = new Date();
-    post.updatedAt = new Date();
-    return post;
+    const index = this.blogPosts.findIndex((p) => p.id === id);
+    if (index === -1) throw new Error("Blog post not found");
+    this.blogPosts[index].published = true;
+    this.blogPosts[index].publishedAt = new Date();
+    return this.blogPosts[index];
   }
 
-  // Testimonial methods
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
-    const testimonial: Testimonial = {
-      id: randomUUID(),
-      clientName: insertTestimonial.clientName,
-      clientEmail: insertTestimonial.clientEmail,
-      rating: insertTestimonial.rating,
-      testimonialText: insertTestimonial.testimonialText,
-      service: insertTestimonial.service ?? null,
-      approved: insertTestimonial.approved ?? false,
-      featured: insertTestimonial.featured ?? false,
+    const testimonial: Testimonial = { 
+      ...insertTestimonial, 
+      id: randomUUID(), 
       createdAt: new Date(),
+      approved: insertTestimonial.approved || false,
+      featured: insertTestimonial.featured || false
     };
-    this.testimonialsData.push(testimonial);
+    this.testimonials.push(testimonial);
     return testimonial;
   }
 
   async getTestimonials(approved?: boolean): Promise<Testimonial[]> {
-    const list =
-      approved === undefined
-        ? this.testimonialsData
-        : this.testimonialsData.filter((t) => t.approved === approved);
-    return [...list].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    let list = this.testimonials;
+    if (approved !== undefined) {
+      list = list.filter((t) => t.approved === approved);
+    }
+    return list.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async approveTestimonial(id: string): Promise<Testimonial> {
-    const t = this.testimonialsData.find((x) => x.id === id);
-    if (!t) throw new Error("Testimonial not found");
-    t.approved = true;
-    return t;
+    const index = this.testimonials.findIndex((t) => t.id === id);
+    if (index === -1) throw new Error("Testimonial not found");
+    this.testimonials[index].approved = true;
+    return this.testimonials[index];
   }
 
   async featureTestimonial(id: string, featured: boolean): Promise<Testimonial> {
-    const t = this.testimonialsData.find((x) => x.id === id);
-    if (!t) throw new Error("Testimonial not found");
-    t.featured = featured;
-    return t;
+    const index = this.testimonials.findIndex((t) => t.id === id);
+    if (index === -1) throw new Error("Testimonial not found");
+    this.testimonials[index].featured = featured;
+    return this.testimonials[index];
+  }
+
+  async initializeData(): Promise<void> {
+    if (this.agents.length === 0) {
+      await this.createAgent({
+        name: "Alexandra Isaac",
+        title: "Tax Preparation Specialist, CPA",
+        bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and achieve financial peace of mind.",
+        email: "Isaacalexandra.ststaxrepair@gmail.com",
+        imageUrl: "https://iili.io/f1vE9Qp.jpg",
+        credentials: ["CPA", "Individual Tax Prep", "+1 more"]
+      });
+      await this.createAgent({
+        name: "AI Tax Agent",
+        title: "Automated Tax Assistant",
+        bio: "Our cutting-edge AI technology provides instant calculations, preliminary tax guidance, and 24/7 support. Perfect for quick questions and simple tax scenarios.",
+        email: "ai@provisionexpertax.com",
+        imageUrl: "https://iili.io/N7gZd3Z/ai-tax-agent-professional.png",
+        credentials: ["AI Technology", "24/7 Support", "+2 more"]
+      });
+      await this.createAgent({
+        name: "Jennifer Constantino",
+        title: "Senior Tax Consultant",
+        bio: "Dedicated tax professional based in Hollywood, FL, providing comprehensive tax preparation and consultation services. Committed to delivering personalized financial guidance.",
+        email: "jennconstantino93@gmail.com",
+        imageUrl: "https://iili.io/f1vNNN1.jpg",
+        credentials: ["Tax Preparation", "Business Consulting", "+1 more"]
+      });
+    }
   }
 }
 
-export const storage: IStorage =
-  process.env.DATABASE_URL ? new DatabaseStorage() : new MemoryStorage();
+export const storage: IStorage = process.env.DATABASE_URL
+  ? new DatabaseStorage()
+  : new InMemoryStorage();

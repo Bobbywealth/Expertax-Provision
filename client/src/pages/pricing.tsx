@@ -36,7 +36,7 @@ export default function Pricing() {
               No hidden fees. No surprises. Just honest, upfront pricing for quality tax services tailored to your needs.
             </p>
           </div>
-
+          
           {/* Pricing hero card (high-conversion, matches screenshot-style content) */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="relative rounded-3xl border-2 border-primary/20 bg-white/70 backdrop-blur-sm shadow-2xl overflow-hidden">
@@ -46,9 +46,9 @@ export default function Pricing() {
                 <div className="inline-flex items-center justify-center mb-6">
                   <span className="bg-yellow-400 text-foreground px-6 py-2 rounded-xl font-black tracking-tight">
                     Starting Price
-                  </span>
-                </div>
-
+                      </span>
+                    </div>
+                  
                 <div className="text-6xl md:text-7xl font-black text-green-600 mb-4" data-testid="text-starting-price">
                   {startingPrice}
                 </div>
@@ -70,16 +70,16 @@ export default function Pricing() {
                       <div className="text-base md:text-lg text-foreground font-medium">{item}</div>
                     </div>
                   ))}
-                </div>
-
+                  </div>
+                  
                 <Link href="/contact" data-testid="link-free-quote">
                   <Button className="bg-gradient-to-r from-yellow-400 to-orange-400 text-foreground px-10 py-6 rounded-2xl font-black text-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 shadow-lg">
                     Get Your Free Quote
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
+                    </Button>
+                  </Link>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </section>

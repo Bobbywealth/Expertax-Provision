@@ -12,7 +12,7 @@ export interface Agent {
 export const agents: Agent[] = [
   {
     id: "sandy-001",
-    name: "Sandy",
+    name: "Alexandra Isaac",
     title: "Tax specialist Master EFIN",
     bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and navigate complex tax situations with ease.",
     email: "Isaacalexandra.ststaxrepair@gmail.com",

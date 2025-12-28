@@ -130,10 +130,10 @@ export class DatabaseStorage implements IStorage {
 
     const sampleAgents: InsertAgent[] = [
       {
-        name: "Sandy",
+        name: "Alexandra Isaac",
         title: "Tax Preparation Specialist, CPA",
         bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and achieve financial peace of mind.",
-        email: "sandy@provisionexpertax.com",
+        email: "Isaacalexandra.ststaxrepair@gmail.com",
         imageUrl: "https://iili.io/f1vE9Qp.jpg",
         credentials: ["CPA", "Individual Tax Prep", "+1 more"]
       },
@@ -177,8 +177,8 @@ export class DatabaseStorage implements IStorage {
   async getAgents(): Promise<Agent[]> {
     const allAgents = await db.select().from(agents);
     
-    // Custom ordering: Sandy, AI Tax Agent, Jennifer Constantino
-    const order = ['Sandy', 'AI Tax Agent', 'Jennifer Constantino'];
+    // Custom ordering: Alexandra Isaac, AI Tax Agent, Jennifer Constantino
+    const order = ['Alexandra Isaac', 'AI Tax Agent', 'Jennifer Constantino'];
     return allAgents.sort((a, b) => {
       const aIndex = order.indexOf(a.name);
       const bIndex = order.indexOf(b.name);
@@ -435,10 +435,10 @@ class MemoryStorage implements IStorage {
     if (this.agentsData.length > 0) return;
     const sampleAgents: InsertAgent[] = [
       {
-        name: "Sandy",
+        name: "Alexandra Isaac",
         title: "Tax Preparation Specialist, CPA",
         bio: "Experienced tax professional specializing in individual and family tax preparation. Dedicated to helping clients maximize their refunds and achieve financial peace of mind.",
-        email: "sandy@provisionexpertax.com",
+        email: "Isaacalexandra.ststaxrepair@gmail.com",
         imageUrl: "https://iili.io/f1vE9Qp.jpg",
         credentials: ["CPA", "Individual Tax Prep", "+1 more"],
       },
@@ -466,7 +466,7 @@ class MemoryStorage implements IStorage {
   }
 
   async getAgents(): Promise<Agent[]> {
-    const order = ["Sandy", "AI Tax Agent", "Jennifer Constantino"];
+    const order = ["Alexandra Isaac", "AI Tax Agent", "Jennifer Constantino"];
     return [...this.agentsData].sort((a, b) => {
       const aIndex = order.indexOf(a.name);
       const bIndex = order.indexOf(b.name);

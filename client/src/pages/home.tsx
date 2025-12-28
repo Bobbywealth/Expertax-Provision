@@ -27,7 +27,7 @@ export default function Home() {
     <div className="min-h-screen bg-background" data-testid="page-home">
       {/* Premium Top Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-xl border-b border-primary/10 shadow-lg" data-testid="top-bar">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 h-12 sm:h-13 md:h-16 flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-0 sm:h-14 md:h-16 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <Link href="/" data-testid="link-home" className="group hover:scale-105 transition-transform duration-300 flex-shrink-0">
             <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3">
               <div className="relative">
@@ -60,13 +60,14 @@ export default function Home() {
             ))}
           </div>
           
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <a href={callHref} data-testid="link-call-now" className="inline-flex">
+          <div className="grid grid-cols-3 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-2 sm:flex-shrink-0">
+            <a href={callHref} data-testid="link-call-now" className="w-full">
               <Button
                 variant="outline"
-                className="border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground shadow-sm font-bold px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-xs sm:text-sm md:text-base"
+                className="w-full border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground shadow-sm font-bold px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-xs sm:text-sm md:text-base"
               >
                 <Phone className="h-4 w-4 sm:mr-2" />
+                <span className="sm:hidden">Call</span>
                 <span className="hidden sm:inline">Call Now</span>
               </Button>
             </a>
@@ -75,15 +76,16 @@ export default function Home() {
               target="_blank"
               rel="noreferrer"
               data-testid="link-login"
-              className="hidden sm:inline-flex"
+              className="w-full"
             >
-              <Button variant="secondary" className="shadow-md font-bold px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-xs sm:text-sm md:text-base">
+              <Button variant="secondary" className="w-full shadow-md font-bold px-3 sm:px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl text-xs sm:text-sm md:text-base">
                 Login
               </Button>
             </a>
-            <Link href="/appointments" data-testid="link-book-appointment" className="flex-shrink-0">
-              <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:shadow-xl hover:scale-105 shadow-lg font-bold px-3 sm:px-5 md:px-8 py-2 md:py-3 rounded-lg md:rounded-xl transition-all duration-300 group text-xs sm:text-sm md:text-base">
-                Book Now
+            <Link href="/appointments" data-testid="link-book-appointment" className="w-full">
+              <Button className="w-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:shadow-xl hover:scale-105 shadow-lg font-bold px-3 sm:px-5 md:px-8 py-2 md:py-3 rounded-lg md:rounded-xl transition-all duration-300 group text-xs sm:text-sm md:text-base">
+                <span className="sm:hidden">Book</span>
+                <span className="hidden sm:inline">Book Now</span>
                 <ChevronDown className="ml-1 md:ml-2 h-3 w-3 md:h-4 md:w-4 group-hover:translate-y-0.5 transition-transform duration-300 hidden sm:block" />
               </Button>
             </Link>
@@ -95,7 +97,7 @@ export default function Home() {
       <SidebarStats />
 
       {/* Main Content - with top margin for fixed header */}
-      <div className="pt-12 sm:pt-13 md:pt-16 lg:pr-32">
+      <div className="pt-24 sm:pt-14 md:pt-16 lg:pr-32">
         <Hero />
         <About />
         <ServicesPreview />

@@ -40,7 +40,7 @@ export default function Hero() {
                 <img 
                   src={heroImageSrc}
                   alt="Provision ExperTax Team"
-                  className="rounded-2xl shadow-2xl w-full h-56 object-cover object-center relative"
+                  className="rounded-2xl shadow-2xl w-full h-60 object-cover object-top sm:object-center relative"
                   data-testid="img-hero-mobile"
                   loading="eager"
                   fetchPriority="high"

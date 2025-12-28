@@ -37,7 +37,7 @@ export default function Home() {
                 <img 
                   src="https://iili.io/KEcaJUX.th.png" 
                   alt="Provision ExperTax Services Logo" 
-                  className="h-6 sm:h-7 md:h-10 w-auto relative"
+                  className="h-7 sm:h-7 md:h-10 w-auto relative"
                   data-testid="img-logo"
                 />
               </div>
